@@ -1,26 +1,38 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/ctfrancia/bcnchess/cmd/cli"
 )
 
+type application struct {
+	errorLog     *log.Logger
+	infoLog      *log.Logger
+	serverConfig *cli.ServerConfig
+}
+
 func main() {
 	serverConfig := cli.NewServerConfig()
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/tournament/:id", showTournament)
-	mux.HandleFunc("/tournament/create", createTournament)
 
-	fileServer := http.FileServer(http.Dir(serverConfig.StaticFiles))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime|log.Lshortfile)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	fmt.Println(serverConfig)
-	log.Printf("starting on server: %s", serverConfig.Addr)
-	err := http.ListenAndServe(serverConfig.Addr, mux)
+	app := &application{
+		errorLog:     errorLog,
+		infoLog:      infoLog,
+		serverConfig: serverConfig,
+	}
 
-	log.Fatal(err)
+	srv := &http.Server{
+		Addr:     serverConfig.Addr,
+		ErrorLog: errorLog,
+		Handler:  app.routes(),
+	}
+
+	infoLog.Printf("starting on server: %s", serverConfig.Addr)
+	err := srv.ListenAndServe()
+	errorLog.Fatal(err)
 }
