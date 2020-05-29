@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
-	"unicode/utf8"
 
+	"github.com/ctfrancia/bcnchess/pkg/forms"
 	"github.com/ctfrancia/bcnchess/pkg/models"
 )
 
@@ -39,7 +38,9 @@ func (app *application) showTournament(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) createTournamentForm(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, "create.page.tmpl", nil)
+	app.render(w, r, "create.page.tmpl", &templateData{
+		Form: forms.New(nil),
+	})
 }
 
 func (app *application) createTournament(w http.ResponseWriter, r *http.Request) {
@@ -49,12 +50,22 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 		app.clientError(w, http.StatusBadRequest)
 		return
 	}
+	form := forms.New(r.PostForm)
+	form.Required("title", "additionalInformation", "expires") // more will be added here
+	form.MaxLength("title", 100)
+	form.PermittedValues("expires", "365", "7", "1")
+
+	if !form.Valid() {
+		app.render(w, r, "create.page.tmpl", &templateData{Form: form})
+		return
+	}
+
 	data := models.Tournament{
-		Title:                 r.PostForm.Get("title"),
+		Title:                 form.Get("title"),
 		Location:              "Mom's basement",
 		MatchTimeStart:        now,
 		MatchTimeEnd:          now.AddDate(0, 0, 1),
-		AdditionalInformation: r.PostForm.Get("additionalInformation"),
+		AdditionalInformation: form.Get("additionalInformation"),
 		IsOnline:              false,
 		TimeControl:           "3+2",
 		TournamentType:        "Swiss",
@@ -64,23 +75,6 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 		Expires:               now.AddDate(0, 0, 1),
 		// TODO: above needs to be changed once I know the example string that we are receiving
 		// https://stackoverflow.com/questions/25845172/parsing-date-string-in-go
-	}
-
-	errors := make(map[string]string)
-	if strings.TrimSpace(data.Title) == "" {
-		errors["title"] = "This field cannot be blank"
-	} else if utf8.RuneCountInString(data.Title) > 100 {
-		errors["title"] = "This field is too long(maximmum is 100 characters)"
-	}
-
-	if strings.TrimSpace(data.AdditionalInformation) == "" {
-		errors["additionalInformation"] = "This field cannot be blank"
-	}
-	// TODO: add here the part for checking the expiring time is entered
-
-	if len(errors) > 0 {
-		fmt.Fprint(w, errors)
-		return
 	}
 
 	id, err := app.tournaments.Insert(data)
