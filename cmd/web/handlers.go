@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
+	"unicode/utf8"
 
 	"github.com/ctfrancia/bcnchess/pkg/models"
 )
@@ -62,6 +64,23 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 		Expires:               now.AddDate(0, 0, 1),
 		// TODO: above needs to be changed once I know the example string that we are receiving
 		// https://stackoverflow.com/questions/25845172/parsing-date-string-in-go
+	}
+
+	errors := make(map[string]string)
+	if strings.TrimSpace(data.Title) == "" {
+		errors["title"] = "This field cannot be blank"
+	} else if utf8.RuneCountInString(data.Title) > 100 {
+		errors["title"] = "This field is too long(maximmum is 100 characters)"
+	}
+
+	if strings.TrimSpace(data.AdditionalInformation) == "" {
+		errors["additionalInformation"] = "This field cannot be blank"
+	}
+	// TODO: add here the part for checking the expiring time is entered
+
+	if len(errors) > 0 {
+		fmt.Fprint(w, errors)
+		return
 	}
 
 	id, err := app.tournaments.Insert(data)
