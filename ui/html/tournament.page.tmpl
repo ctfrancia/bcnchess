@@ -1,0 +1,25 @@
+{{template "base" .}}
+
+{{define "title"}}Tournament #{{.Tournament.ID}}{{end}}
+
+{{define "main"}}
+<div class='snippet'>
+    {{with .Tournament}}
+    <div class='metadata'>
+        <strong>{{.Title}}</strong>
+        <span>#{{.ID}}</span>
+    </div>
+    <pre><code>{{.AdditionalInformation}}</code></pre>
+    <div class='metadata'>
+        <div class='metadata'>
+            <time>Starts: {{humanDate .MatchTimeStart}}</time>
+            <time>Ends: {{humanDate .MatchTimeEnd}}</time>
+        </div>
+        <div class='metadata'>
+            <time>Created: {{humanDate .Created}}</time>
+            <time>Expires: {{humanDate .Expires}}</time>
+        </div>
+    </div>
+    {{end}}
+</div>
+{{end}}

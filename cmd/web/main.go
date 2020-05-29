@@ -2,18 +2,22 @@ package main
 
 import (
 	"database/sql"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/ctfrancia/bcnchess/cmd/cli"
+	"github.com/ctfrancia/bcnchess/pkg/models/mysql"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type application struct {
-	errorLog     *log.Logger
-	infoLog      *log.Logger
-	serverConfig *cli.ServerConfig
+	errorLog      *log.Logger
+	infoLog       *log.Logger
+	serverConfig  *cli.ServerConfig
+	tournaments   *mysql.TournamentModel
+	templateCache map[string]*template.Template
 }
 
 func main() {
@@ -27,11 +31,17 @@ func main() {
 		errorLog.Fatal(err)
 	}
 	defer db.Close()
+	templateCache, err := newTemplateCache("./ui/html")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
 
 	app := &application{
-		errorLog:     errorLog,
-		infoLog:      infoLog,
-		serverConfig: serverConfig,
+		errorLog:      errorLog,
+		infoLog:       infoLog,
+		serverConfig:  serverConfig,
+		tournaments:   &mysql.TournamentModel{DB: db},
+		templateCache: templateCache,
 	}
 
 	srv := &http.Server{

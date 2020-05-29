@@ -3,5 +3,22 @@
 {{define "title"}}Home{{end}}
 {{define "main"}}
 <h2>Latest tournaments</h2>
-<p> there's nothing to see at the moment...</p>
+    {{if .Tournaments}}
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Created</th>
+                <th>ID</th>
+            </tr>
+            {{range .Tournaments}}
+            <tr>
+                <td><a href='/tournament?id={{.ID}}'>{{.Title}}</a></td>
+                <td>{{humanDate .Created}}</td>
+                <td>{{.ID}}</td>
+            </tr>
+            {{end}}
+        </table>
+        {{else}}
+        <p> There's nothing to show yet ... </p>
+    {{end}}
 {{end}}
