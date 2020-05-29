@@ -11,10 +11,6 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		app.notFound(w)
-		return
-	}
 	t, err := app.tournaments.Latest()
 	if err != nil {
 		app.serverError(w, err)
@@ -24,7 +20,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "home.page.tmpl", &templateData{Tournaments: t})
 }
 func (app *application) showTournament(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
 	if err != nil || id < 1 {
 		app.notFound(w)
 	}
@@ -40,19 +36,23 @@ func (app *application) showTournament(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "tournament.page.tmpl", &templateData{Tournament: t})
 }
 
+func (app *application) createTournamentForm(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "create.page.tmpl", nil)
+}
+
 func (app *application) createTournament(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
-	if r.Method != http.MethodPost {
-		w.Header().Set("Allow", http.MethodPost)
-		app.clientError(w, http.StatusMethodNotAllowed)
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
 		return
 	}
 	data := models.Tournament{
-		Title:                 "tournament 1",
+		Title:                 r.PostForm.Get("title"),
 		Location:              "Mom's basement",
 		MatchTimeStart:        now,
 		MatchTimeEnd:          now.AddDate(0, 0, 1),
-		AdditionalInformation: "Here is the additional information about my mom's basement, it's cold and damp",
+		AdditionalInformation: r.PostForm.Get("additionalInformation"),
 		IsOnline:              false,
 		TimeControl:           "3+2",
 		TournamentType:        "Swiss",
@@ -60,11 +60,13 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 		Poster:                "./ui/static/img/logo.png",
 		Created:               now,
 		Expires:               now.AddDate(0, 0, 1),
+		// TODO: above needs to be changed once I know the example string that we are receiving
+		// https://stackoverflow.com/questions/25845172/parsing-date-string-in-go
 	}
+
 	id, err := app.tournaments.Insert(data)
 	if err != nil {
 		app.serverError(w, err)
 	}
-	http.Redirect(w, r, fmt.Sprintf("/tournament/:%d", id), http.StatusSeeOther)
-	w.Write([]byte("create tournament"))
+	http.Redirect(w, r, fmt.Sprintf("/tournament/%d", id), http.StatusSeeOther)
 }
