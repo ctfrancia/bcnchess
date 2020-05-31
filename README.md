@@ -19,6 +19,8 @@ are shared through whatsapp which makes it easy to miss one or not know about th
 - create chess clubs
 - chess club managers can manage their clubs
 - verification of chess club members (that "John Doe" is the manager or has permission to host chess games at said club)
+- After a tournament is complete be able to update metadata related to the tournament for people to later see
+- create `match` database where users can save their games, storing PEN so they can see their matches later for viewing(NOSQL database will likely be best option here)
 - More will be added as the site comes online
 ## flags
 ### reminder

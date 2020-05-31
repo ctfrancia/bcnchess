@@ -10,11 +10,13 @@ import (
 )
 
 type templateData struct {
-	CurrentYear int
-	Flash       string
-	Form        *forms.Form
-	Tournament  *models.Tournament
-	Tournaments []*models.Tournament
+	CSRFToken       string
+	CurrentYear     int
+	Flash           string
+	Form            *forms.Form
+	IsAuthenticated bool
+	Tournament      *models.Tournament
+	Tournaments     []*models.Tournament
 }
 
 var functions = template.FuncMap{

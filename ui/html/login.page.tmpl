@@ -3,6 +3,7 @@
 {{define "title"}}Login{{end}}
 {{define "main"}}
 <form action='/user/login' method='POST'>
+    <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
     {{with .Form}}
         {{with .Errors.Get "generic"}}
             <label class='error'>{{.}}</label>

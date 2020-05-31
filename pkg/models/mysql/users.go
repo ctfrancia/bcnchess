@@ -71,5 +71,27 @@ func (m *UserModel) Authenticate(email, password string) (int, error) {
 
 // Get will fetch a single record of a user from the user table
 func (m *UserModel) Get(id int) (*models.User, error) {
-	return nil, nil
+	u := &models.User{}
+
+	stmt := "SELECT id, firstName, lastName, email, club, eloStandard, eloRapid, lichessUsername, chesscomUserName, created, active FROM users WHERE id = ?"
+	err := m.DB.QueryRow(stmt, id).Scan(
+		&u.ID,
+		&u.FirstName,
+		&u.LastName,
+		&u.Email,
+		&u.Club,
+		&u.EloStandard,
+		&u.EloRapid,
+		&u.LichessUsername,
+		&u.ChesscomUsername,
+		&u.Created,
+		&u.Active,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, models.ErrNoRecord
+		}
+		return nil, err
+	}
+	return u, nil
 }
