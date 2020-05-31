@@ -13,6 +13,10 @@ func errFieldTooLong(d int) string {
 	return fmt.Sprintf("This field is too long(maximum is %d characters)", d)
 }
 
+func errFieldTooShort(d int) string {
+	return fmt.Sprintf("This field is too short(minumum is %d characters)", d)
+}
+
 // Add will add an error to the map
 func (e errors) Add(field, message string) {
 	e[field] = append(e[field], message)

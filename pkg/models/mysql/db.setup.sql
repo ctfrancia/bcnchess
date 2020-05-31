@@ -55,3 +55,23 @@ INSERT INTO tournaments (title, location, matchTimeStart, matchTimeEnd, addition
 CREATE USER IF NOT EXISTS 'chess-web'@'localhost' IDENTIFIED BY 'password';
 
 GRANT SELECT, INSERT, UPDATE ON bcnchess.* TO 'chess-web'@'localhost';
+
+CREATE TABLE users(
+  id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  firstName VARCHAR(255) NOT NULL,
+  lastName VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password CHAR(60) NOT NULL,
+  club VARCHAR(255) NOT NULL,
+  eloStandard VARCHAR(255) NOT NULL DEFAULT "na",
+  eloRapid VARCHAR(255) NOT NULL DEFAULT "na",
+  lichessUserName VARCHAR(255) NOT NULL DEFAULT "na",
+  chesscomUserName VARCHAR(255) NOT NULL DEFAULT "na",
+  created DATETIME NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+ALTER TABLE users ADD CONSTRAINT users_us_email UNIQUE (email);
+
+
+

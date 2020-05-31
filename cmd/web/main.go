@@ -1,11 +1,13 @@
 package main
 
 import (
+	"crypto/tls"
 	"database/sql"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/golangcollege/sessions"
 
@@ -22,6 +24,7 @@ type application struct {
 	session       *sessions.Session
 	tournaments   *mysql.TournamentModel
 	templateCache map[string]*template.Template
+	users         *mysql.UserModel
 }
 
 func main() {
@@ -47,12 +50,22 @@ func main() {
 		session:       serverConfig.Session,
 		tournaments:   &mysql.TournamentModel{DB: db},
 		templateCache: templateCache,
+		users:         &mysql.UserModel{DB: db},
+	}
+
+	tlsConfig := &tls.Config{
+		PreferServerCipherSuites: true,
+		CurvePreferences:         []tls.CurveID{tls.X25519, tls.CurveP256},
 	}
 
 	srv := &http.Server{
-		Addr:     serverConfig.Addr,
-		ErrorLog: errorLog,
-		Handler:  app.routes(),
+		Addr:         serverConfig.Addr,
+		ErrorLog:     errorLog,
+		Handler:      app.routes(),
+		TLSConfig:    tlsConfig,
+		IdleTimeout:  time.Minute,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
 	}
 
 	infoLog.Printf("starting on server: %s", serverConfig.Addr)
