@@ -20,11 +20,14 @@ type templateData struct {
 }
 
 var functions = template.FuncMap{
-	"humanDate": humanData,
+	"humanDate": humanDate,
 }
 
-func humanData(t time.Time) string {
-	return t.Format("02 Jan 2006 at 15:04")
+func humanDate(t time.Time) string {
+	if t.IsZero() {
+		return ""
+	}
+	return t.UTC().Format("02 Jan 2006 at 15:04")
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {
