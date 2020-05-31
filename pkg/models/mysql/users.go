@@ -47,7 +47,26 @@ func (m *UserModel) Insert(u *models.User) error {
 
 // Authenticate takes the email and password to check if information is valid
 func (m *UserModel) Authenticate(email, password string) (int, error) {
-	return 0, nil
+	var id int
+	var hashedPassword []byte
+	stmt := "SELECT id, password FROM users where email = ? AND active = TRUE"
+	row := m.DB.QueryRow(stmt, email)
+	err := row.Scan(&id, &hashedPassword)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return 0, models.ErrInvalidCredentials
+		}
+		return 0, err
+	}
+	err = bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
+	if err != nil {
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return 0, models.ErrInvalidCredentials
+		}
+		return 0, err
+	}
+
+	return id, nil
 }
 
 // Get will fetch a single record of a user from the user table
