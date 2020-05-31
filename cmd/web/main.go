@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/golangcollege/sessions"
+
 	"github.com/ctfrancia/bcnchess/cmd/cli"
 	"github.com/ctfrancia/bcnchess/pkg/models/mysql"
 	_ "github.com/go-sql-driver/mysql"
@@ -16,6 +18,8 @@ type application struct {
 	errorLog      *log.Logger
 	infoLog       *log.Logger
 	serverConfig  *cli.ServerConfig
+	staticFiles   string
+	session       *sessions.Session
 	tournaments   *mysql.TournamentModel
 	templateCache map[string]*template.Template
 }
@@ -39,7 +43,8 @@ func main() {
 	app := &application{
 		errorLog:      errorLog,
 		infoLog:       infoLog,
-		serverConfig:  serverConfig,
+		staticFiles:   serverConfig.StaticFiles,
+		session:       serverConfig.Session,
 		tournaments:   &mysql.TournamentModel{DB: db},
 		templateCache: templateCache,
 	}
@@ -51,7 +56,7 @@ func main() {
 	}
 
 	infoLog.Printf("starting on server: %s", serverConfig.Addr)
-	err = srv.ListenAndServe()
+	err = srv.ListenAndServeTLS("./tls/cert.pem", "./tls/key.pem")
 	errorLog.Fatal(err)
 }
 

@@ -11,6 +11,7 @@ import (
 
 type templateData struct {
 	CurrentYear int
+	Flash       string
 	Form        *forms.Form
 	Tournament  *models.Tournament
 	Tournaments []*models.Tournament

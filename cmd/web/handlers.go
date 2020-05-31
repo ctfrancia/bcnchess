@@ -81,5 +81,6 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 	if err != nil {
 		app.serverError(w, err)
 	}
+	app.session.Put(r, "flash", "Tournament successfully created!")
 	http.Redirect(w, r, fmt.Sprintf("/tournament/%d", id), http.StatusSeeOther)
 }
