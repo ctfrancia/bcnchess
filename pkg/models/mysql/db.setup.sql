@@ -66,13 +66,17 @@ CREATE TABLE users(
   club VARCHAR(255) NOT NULL,
   eloStandard VARCHAR(255) NOT NULL DEFAULT "na",
   eloRapid VARCHAR(255) NOT NULL DEFAULT "na",
-  lichessUserName VARCHAR(255) NOT NULL DEFAULT "na",
-  chesscomUserName VARCHAR(255) NOT NULL DEFAULT "na",
+  lichessUsername VARCHAR(255) NOT NULL DEFAULT "na",
+  chesscomUsername VARCHAR(255) NOT NULL DEFAULT "na",
   created DATETIME NOT NULL,
   active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE users ADD CONSTRAINT users_us_email UNIQUE (email);
+
+-- Setting up the testing environment
+CREATE USER 'test_bcnchess'@'localhost' IDENTIFIED BY 'password';
+GRANT CREATE, DROP, ALTER, INDEX, SELECT, INSERT, UPDATE, DELETE ON test_bcnchess.* TO 'test_bcnchess'@'localhost';
 
 
 
