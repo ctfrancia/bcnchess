@@ -29,7 +29,7 @@ func (f *Form) Required(fields ...string) {
 	for _, field := range fields {
 		value := f.Get(field)
 		if strings.TrimSpace(value) == "" {
-			f.Errors.Add(field, errCannotBeBlank)
+			f.Errors.Add(field, ErrCannotBeBlank)
 		}
 	}
 }
@@ -42,7 +42,7 @@ func (f *Form) MinLength(field string, d int) {
 		return
 	}
 	if utf8.RuneCountInString(value) < d {
-		f.Errors.Add(field, errFieldTooShort(d))
+		f.Errors.Add(field, ErrFieldTooShort(d))
 	}
 }
 
@@ -55,7 +55,7 @@ func (f *Form) MaxLength(field string, d int) {
 	}
 
 	if utf8.RuneCountInString(value) > d {
-		f.Errors.Add(field, errFieldTooLong(d))
+		f.Errors.Add(field, ErrFieldTooLong(d))
 	}
 }
 
@@ -66,7 +66,7 @@ func (f *Form) MatchesPattern(field string, pattern *regexp.Regexp) {
 		return
 	}
 	if !pattern.MatchString(value) {
-		f.Errors.Add(field, errFieldInvalid)
+		f.Errors.Add(field, ErrFieldInvalid)
 	}
 }
 
@@ -84,7 +84,7 @@ func (f *Form) PermittedValues(field string, opts ...string) {
 		}
 	}
 
-	f.Errors.Add(field, errFieldInvalid)
+	f.Errors.Add(field, ErrFieldInvalid)
 }
 
 // Valid returns a boolean based on if there are errors within the map

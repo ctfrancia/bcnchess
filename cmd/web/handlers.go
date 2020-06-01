@@ -96,7 +96,7 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	form := forms.New(r.PostForm)
-	form.Required("firstName", "email", "password")
+	form.Required("firstName", "email", "password", "lastName")
 	form.MaxLength("firstName", 255)
 	form.MaxLength("email", 255)
 	form.MatchesPattern("email", forms.EmailRX)
@@ -104,18 +104,19 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 
 	if !form.Valid() {
 		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
+		return
 	}
 
 	u := &models.User{
-		FirstName:   form.Get("firstName"),
-		LastName:    "Francia",
-		Email:       form.Get("email"),
-		Password:    []byte(form.Get("password")),
-		Club:        "Congres C.E",
-		EloStandard: "1700",
-		EloRapid:    "1700",
-		// LichessUsername: "",
-		// ChesscomUsername: "",
+		FirstName:        form.Get("firstName"),
+		LastName:         form.Get("lastName"),
+		Email:            form.Get("email"),
+		Password:         []byte(form.Get("password")),
+		Club:             "Congres C.E",
+		EloStandard:      "1700",
+		EloRapid:         "1700",
+		LichessUsername:  "",
+		ChesscomUsername: "",
 	}
 	err = app.users.Insert(u)
 	if err != nil {

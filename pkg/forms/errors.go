@@ -5,15 +5,19 @@ import "fmt"
 type errors map[string][]string
 
 const (
-	errCannotBeBlank = "This field cannot be blank"
-	errFieldInvalid  = "This field is invalid"
+	// ErrCannotBeBlank is a constant "This field cannot be blank"
+	ErrCannotBeBlank = "This field cannot be blank"
+	// ErrFieldInvalid is a constant "This field is invalid"
+	ErrFieldInvalid = "This field is invalid"
 )
 
-func errFieldTooLong(d int) string {
+// ErrFieldTooLong returns a string with too long of argument
+func ErrFieldTooLong(d int) string {
 	return fmt.Sprintf("This field is too long(maximum is %d characters)", d)
 }
 
-func errFieldTooShort(d int) string {
+// ErrFieldTooShort returns a string with too short of argument
+func ErrFieldTooShort(d int) string {
 	return fmt.Sprintf("This field is too short(minumum is %d characters)", d)
 }
 

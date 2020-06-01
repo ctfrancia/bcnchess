@@ -10,7 +10,7 @@ var (
 	ErrNoRecord           = errors.New("models: no matching record")
 	ErrInvalidCredentials = errors.New("models: invalid credentials")
 	ErrDuplicateEmail     = errors.New("models: duplicate email")
-	ErrEmailAlreadyExists = "Address is Already in use"
+	ErrEmailAlreadyExists = "Address is already in use"
 )
 
 // Tournament defines how are records are being saved and received from the DB

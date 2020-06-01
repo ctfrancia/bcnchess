@@ -6,11 +6,18 @@
     <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
     {{with .Form}}
     <div>
-        <label>Name:</label>
+        <label>First name:</label>
         {{with .Errors.Get "firstName"}}
             <label class='error'>{{.}}</label>
         {{end}}
         <input type='text' name='firstName' value='{{.Get "firstName"}}'>
+    </div>
+    <div>
+        <label>Last name:</label>
+        {{with .Errors.Get "lastName"}}
+            <label class='error'>{{.}}</label>
+        {{end}}
+        <input type='text' name='lastName' value='{{.Get "lastName"}}'>
     </div>
     <div>
         <label>Email:</label>
@@ -19,6 +26,7 @@
         {{end}}
         <input type='email' name='email' value='{{.Get "email"}}'>
     </div>
+    
     <div>
         <label>Password:</label>
         {{with .Errors.Get "password"}}
