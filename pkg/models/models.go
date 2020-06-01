@@ -18,6 +18,7 @@ type Tournament struct {
 	ID                    int
 	Title                 string
 	Location              string
+	TournamentDate        time.Time
 	MatchTimeStart        time.Time
 	MatchTimeEnd          time.Time
 	AdditionalInformation string

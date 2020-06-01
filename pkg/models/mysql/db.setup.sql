@@ -6,6 +6,7 @@ CREATE TABLE tournaments (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
   	location VARCHAR(255) NOT NULL,
+    tournamentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     matchTimeStart DATETIME NOT NULL, 
     matchTimeEnd DATETIME NOT NULL,
     additionalInformation TEXT NOT NULL,

@@ -60,7 +60,7 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	data := models.Tournament{
+	data := &models.Tournament{
 		Title:                 form.Get("title"),
 		Location:              "Mom's basement",
 		MatchTimeStart:        now,

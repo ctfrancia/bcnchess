@@ -9,6 +9,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/ctfrancia/bcnchess/pkg/models"
+
 	"github.com/golangcollege/sessions"
 
 	"github.com/ctfrancia/bcnchess/cmd/cli"
@@ -21,14 +23,22 @@ type contextKey string
 const contextKeyIsAuthenticated = contextKey("isAuthenticated")
 
 type application struct {
-	errorLog      *log.Logger
-	infoLog       *log.Logger
-	serverConfig  *cli.ServerConfig
-	staticFiles   string
-	session       *sessions.Session
-	tournaments   *mysql.TournamentModel
+	errorLog     *log.Logger
+	infoLog      *log.Logger
+	serverConfig *cli.ServerConfig
+	staticFiles  string
+	session      *sessions.Session
+	tournaments  interface {
+		Insert(*models.Tournament) (int, error)
+		Get(int) (*models.Tournament, error)
+		Latest() ([]*models.Tournament, error)
+	}
 	templateCache map[string]*template.Template
-	users         *mysql.UserModel
+	users         interface {
+		Insert(*models.User) error
+		Authenticate(string, string) (int, error)
+		Get(int) (*models.User, error)
+	}
 }
 
 func main() {

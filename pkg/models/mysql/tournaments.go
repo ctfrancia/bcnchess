@@ -13,7 +13,7 @@ type TournamentModel struct {
 }
 
 // Insert is used for inserting into our Tournament Table
-func (m *TournamentModel) Insert(t models.Tournament) (int, error) {
+func (m *TournamentModel) Insert(t *models.Tournament) (int, error) {
 	stmt := `INSERT INTO tournaments (
 		title, location, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, created, expires
 		) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`

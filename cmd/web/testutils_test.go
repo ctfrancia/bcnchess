@@ -7,6 +7,10 @@ import (
 	"net/http/cookiejar"
 	"net/http/httptest"
 	"testing"
+	"time"
+
+	"github.com/ctfrancia/bcnchess/pkg/models/mock"
+	"github.com/golangcollege/sessions"
 )
 
 type testServer struct {
@@ -14,9 +18,21 @@ type testServer struct {
 }
 
 func newTestApplication(t *testing.T) *application {
+	templateCache, err := newTemplateCache("./../../ui/html")
+	if err != nil {
+		t.Fatal(err)
+	}
+	session := sessions.New([]byte("wer#gsfgFg4tsFGsrttgDopo"))
+	session.Lifetime = 12 * time.Hour
+	session.Secure = true
+
 	return &application{
-		errorLog: log.New(ioutil.Discard, "", 0),
-		infoLog:  log.New(ioutil.Discard, "", 0),
+		errorLog:      log.New(ioutil.Discard, "", 0),
+		infoLog:       log.New(ioutil.Discard, "", 0),
+		session:       session,
+		tournaments:   new(mock.TournamentModel),
+		templateCache: templateCache,
+		users:         new(mock.UserModel),
 	}
 }
 
