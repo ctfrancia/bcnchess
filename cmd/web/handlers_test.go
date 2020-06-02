@@ -119,6 +119,44 @@ func TestSignupUser(t *testing.T) {
 	}
 }
 
+func TestCreateTournamentForm(t *testing.T) {
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+	defer ts.Close()
+
+	t.Run("Unauthenticated", func(t *testing.T) {
+		code, headers, _ := ts.get(t, "/tournament/create")
+		if code != http.StatusSeeOther {
+			t.Errorf("wanted: %d; got: %d", http.StatusSeeOther, code)
+		}
+		if headers.Get("Location") != "/user/login" {
+			t.Errorf("wants: %s; got %s", "/user/login", headers.Get("Location"))
+		}
+	})
+
+	t.Run("Authenticated", func(t *testing.T) {
+		_, _, body := ts.get(t, "/user/login")
+		csrfToken := extractCSRFToken(t, body)
+
+		form := url.Values{}
+
+		form.Add("email", "jdoe@example.com")
+		form.Add("password", "")
+		form.Add("csrf_token", csrfToken)
+		ts.postForm(t, "/user/login", form)
+
+		code, _, body := ts.get(t, "/tournament/create")
+		if code != 200 {
+			t.Errorf("want: %d; got: %d", 200, code)
+		}
+
+		formTag := "<form action='/tournament/create' enctype='multipart/form-data' method='POST'>"
+		if !bytes.Contains(body, []byte(formTag)) {
+			t.Errorf("want body %s to contain %s", body, formTag)
+		}
+	})
+}
+
 /*
 func TestGetTournament(t *testing.T) {
 	if testing.Short() {
