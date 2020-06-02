@@ -3,7 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -19,6 +21,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.render(w, r, "home.page.tmpl", &templateData{Tournaments: t})
+	// app.render(w, r, "home.page.tmpl", nil)
 }
 func (app *application) showTournament(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
@@ -44,6 +47,8 @@ func (app *application) createTournamentForm(w http.ResponseWriter, r *http.Requ
 }
 
 func (app *application) createTournament(w http.ResponseWriter, r *http.Request) {
+	r.Header.Add("Content-Type", "multipart/form-data")
+	// filePath := uploadFile(w, r)
 	now := time.Now()
 	err := r.ParseForm()
 	if err != nil {
@@ -59,24 +64,26 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 		app.render(w, r, "create.page.tmpl", &templateData{Form: form})
 		return
 	}
+	c := convBool(form.Get("isOnline"))
+	fmt.Println(c)
 
 	data := &models.Tournament{
 		Title:                 form.Get("title"),
-		Location:              "Mom's basement",
-		MatchTimeStart:        now,
-		MatchTimeEnd:          now.AddDate(0, 0, 1),
-		AdditionalInformation: form.Get("additionalInformation"),
-		IsOnline:              false,
-		TimeControl:           "3+2",
-		TournamentType:        "Swiss",
-		Rated:                 true,
-		Poster:                "./ui/static/img/logo.png",
+		Location:              "location",
+		TournamentDate:        time.Now(),
+		MatchTimeStart:        "matchTimeStart",
+		MatchTimeEnd:          "match time end",
+		AdditionalInformation: "additionalInformation",
+		IsOnline:              true,
+		TimeControl:           "timeControl",
+		TournamentType:        "tournamentType",
+		Rated:                 false,
+		Poster:                "filePath",
 		Created:               now,
 		Expires:               now.AddDate(0, 0, 1),
 		// TODO: above needs to be changed once I know the example string that we are receiving
 		// https://stackoverflow.com/questions/25845172/parsing-date-string-in-go
 	}
-
 	id, err := app.tournaments.Insert(data)
 	if err != nil {
 		app.serverError(w, err)
@@ -164,6 +171,39 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+func (app *application) aboutPage(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "about.page.tmpl", nil)
+}
+
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
+}
+
+// ADD TO HELPERS BELOW!!!!!!
+func uploadFile(w http.ResponseWriter, r *http.Request) string {
+	r.ParseMultipartForm(32 << 20)
+
+	file, handler, err := r.FormFile("poster")
+	if err != nil {
+		fmt.Println("Error getting file", err)
+		return ""
+	}
+	defer file.Close()
+
+	f, err := os.Create("./pkg/imgs/tournaments/" + handler.Filename)
+	if err != nil {
+		fmt.Println("Error saving", err)
+		return ""
+	}
+	defer f.Close()
+
+	io.Copy(f, file)
+	return "./pkg/imgs/tournaments" + handler.Filename
+}
+
+func convBool(val string) bool {
+	if val == "on" {
+		return true
+	}
+	return false
 }

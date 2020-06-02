@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"github.com/ctfrancia/bcnchess/pkg/models"
 )
@@ -14,10 +15,30 @@ type TournamentModel struct {
 
 // Insert is used for inserting into our Tournament Table
 func (m *TournamentModel) Insert(t *models.Tournament) (int, error) {
+	fmt.Println(t.Expires)
 	stmt := `INSERT INTO tournaments (
-		title, location, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, created, expires
-		) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
-	result, err := m.DB.Exec(stmt, t.Title, t.Location, t.MatchTimeStart, t.MatchTimeEnd, t.AdditionalInformation, t.IsOnline, t.TimeControl, t.TournamentType, t.Rated, t.Poster, t.Expires)
+			title, location, tournamentDate, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, created, expires
+			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
+	/*
+		stmt := `INSERT INTO tournaments (
+			title, location, tournamentDate, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, expires
+			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?,UTC_TIMESTAMP(), ?`
+	*/
+	result, err := m.DB.Exec(stmt,
+		t.Title,
+		t.Location,
+		t.TournamentDate,
+		t.MatchTimeStart,
+		t.MatchTimeEnd,
+		t.AdditionalInformation,
+		t.IsOnline,
+		t.TimeControl,
+		t.TournamentType,
+		t.Rated,
+		t.Poster,
+		// t.Created,
+		t.Expires,
+	)
 	if err != nil {
 		return 0, err
 	}
@@ -26,15 +47,13 @@ func (m *TournamentModel) Insert(t *models.Tournament) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+
+	fmt.Println("success")
 	return int(id), nil
 }
 
 // Get takes the id of the tournament as an argument and returns tournament data
 func (m *TournamentModel) Get(id int) (*models.Tournament, error) {
-	/*
-		stmt := `SELECT * FROM tournaments
-			WHERE expires > UTC_TIMESTAMP() AND id = ?`
-	*/
 	stmt := `SELECT * FROM tournaments WHERE id = ?`
 	row := m.DB.QueryRow(stmt, id)
 
@@ -44,6 +63,7 @@ func (m *TournamentModel) Get(id int) (*models.Tournament, error) {
 		&t.ID,
 		&t.Title,
 		&t.Location,
+		&t.TournamentDate,
 		&t.MatchTimeStart,
 		&t.MatchTimeEnd,
 		&t.AdditionalInformation,
@@ -81,6 +101,7 @@ func (m *TournamentModel) Latest() ([]*models.Tournament, error) {
 			&t.ID,
 			&t.Title,
 			&t.Location,
+			&t.TournamentDate,
 			&t.MatchTimeStart,
 			&t.MatchTimeEnd,
 			&t.AdditionalInformation,

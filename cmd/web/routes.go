@@ -13,6 +13,8 @@ func (app *application) routes() http.Handler {
 	mux := pat.New()
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
 
+	mux.Get("/about", dynamicMiddleware.ThenFunc(app.aboutPage))
+
 	mux.Get("/tournament/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createTournamentForm))
 	mux.Post("/tournament/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createTournament))
 

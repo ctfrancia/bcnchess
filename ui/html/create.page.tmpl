@@ -3,7 +3,7 @@
 {{define "title"}}Create a New Tournament{{end}}
 
 {{define "main"}}
-<form action='/tournament/create' method='POST'>
+<form action='/tournament/create' enctype='multipart/form-data' method='POST'>
     <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
     {{with .Form}}
         <div>
@@ -14,7 +14,31 @@
             <input type='text' name='title' value='{{.Get "title"}}'>
         </div>
         <div>
-            <label>Content:</label>
+            <label>Address of Tournament/ Website where tournament is held</label>
+            {{with .Errors.Get "location"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <input type='text' name='location' value='{{.Get "location"}}'>
+        </div>
+        <div>
+            <label>Date of tournament:</label>
+            <input type='date' name='tournamentDate'>
+            <label>Starts time:</label>
+            <input type='tel' name='matchTimeStart'>
+        </div>
+        <div>
+            <label>Time Control(3+2/5+0/etc):</label>
+            <input type='text' name='timeControl'>
+            <label>Type(Round Robin/Swiss/etc)</label>
+            <input type='text' name='tournamentType'>
+        </div>
+        <div class='metadata'>
+            Is rated: <input type='checkbox' name='isRated'><br />
+            Is online: <input type='checkbox' name='isOnline'><br />
+            tournament Poster: <input type='file' name='poster'>
+        </div>
+        <div>
+            <label>Additional information:</label>
             {{with .Errors.Get "additionalInformation"}}
                 <label class='error'>{{.}}</label>
             {{end}}
@@ -31,8 +55,28 @@
             <input type='radio' name='expires' value='1' {{if (eq $exp "1")}}checked{{end}}> One Day
         </div>
         <div>
-            <input type='submit' value='Publish snippet'>
+            <input type='submit' value='Publish tournament'>
         </div>
     {{end}}
 </form>
 {{end}}
+<!--
++-----------------------+--------------+------+-----+-------------------+-------------------+
+| Field                 | Type         | Null | Key | Default           | Extra             |
++-----------------------+--------------+------+-----+-------------------+-------------------+
+| id                    | int          | NO   | PRI | NULL              | auto_increment    | ****
+| title                 | varchar(100) | NO   |     | NULL              |                   | ****
+| location              | varchar(255) | NO   |     | NULL              |                   | ****
+| matchTimeStart        | datetime     | NO   |     | NULL              |                   | ****
+| matchTimeEnd          | datetime     | NO   |     | NULL              |                   | ----
+| additionalInformation | text         | NO   |     | NULL              |                   | ****
+| isOnline              | tinyint      | NO   |     | 0                 |                   | ****
+| timeControl           | varchar(100) | NO   |     | NULL              |                   | ****
+| tournamentType        | varchar(100) | NO   |     | NULL              |                   | ****
+| rated                 | tinyint      | NO   |     | 0                 |                   |
+| poster                | varchar(200) | NO   |     | NULL              |                   |
+| created               | datetime     | NO   | MUL | NULL              |                   |
+| expires               | datetime     | NO   |     | NULL              |                   |
+| tournamentDate        | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++-----------------------+--------------+------+-----+-------------------+-------------------+
+-->

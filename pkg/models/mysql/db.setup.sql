@@ -6,16 +6,16 @@ CREATE TABLE tournaments (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
   	location VARCHAR(255) NOT NULL,
-    tournamentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    matchTimeStart DATETIME NOT NULL, 
-    matchTimeEnd DATETIME NOT NULL,
+    tournamentDate DATETIME NOT NULL,
+    matchTimeStart VARCHAR(100) NOT NULL, 
+    matchTimeEnd VARCHAR (100) NOT NULL,
     additionalInformation TEXT NOT NULL,
     isOnline TINYINT NOT NULL DEFAULT 0,
   	timeControl VARCHAR(100) NOT NULL,
   	tournamentType VARCHAR(100) NOT NULL,
   	rated TINYINT NOT NULL DEFAULT 0,
   	poster VARCHAR(200) NOT NULL,
-    created DATETIME NOT NULL,
+    created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expires DATETIME NOT NULL
 );
 

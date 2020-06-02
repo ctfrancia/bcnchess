@@ -118,3 +118,71 @@ func TestSignupUser(t *testing.T) {
 		})
 	}
 }
+
+/*
+func TestGetTournament(t *testing.T) {
+	if testing.Short() {
+		t.Skip("mysql: Skipping integration test")
+	}
+	db, teardown := newTestDB(t)
+	defer teardown()
+
+	m := TournamentModel{db}
+
+	_, err := m.Get(1)
+
+	if err != nil {
+		t.Error(err)
+	}
+}
+*/
+/*
+func TestInsertTournament(t *testing.T) {
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+	defer ts.Close()
+
+	if testing.Short() {
+		t.Skip("mysql: Skipping integration test")
+	}
+	tests := []struct {
+		name           string
+		wantTournament *models.Tournament
+		wantError      error
+	}{
+		{
+			name: "Valid Insert",
+			wantTournament: &models.Tournament{
+				Title:                 "Title 1",
+				Location:              "some location",
+				TournamentDate:        time.Now(),
+				MatchTimeStart:        "1400",
+				MatchTimeEnd:          "never",
+				AdditionalInformation: "additional information",
+				IsOnline:              true,
+				TimeControl:           "5+0",
+				TournamentType:        "Swiss",
+				Rated:                 false,
+				Poster:                "none",
+				// Expires:               time.Now().Add(time.Hour + 1),
+			},
+			wantError: nil,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			db, teardown := newTestDB(t)
+			defer teardown()
+
+			m := TournamentModel{db}
+			_, err := m.Insert(tt.wantTournament)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+
+}
+*/

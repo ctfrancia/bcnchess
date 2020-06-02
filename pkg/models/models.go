@@ -19,8 +19,8 @@ type Tournament struct {
 	Title                 string
 	Location              string
 	TournamentDate        time.Time
-	MatchTimeStart        time.Time
-	MatchTimeEnd          time.Time
+	MatchTimeStart        string
+	MatchTimeEnd          string
 	AdditionalInformation string
 	IsOnline              bool
 	TimeControl           string
