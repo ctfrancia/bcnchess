@@ -9,6 +9,11 @@ I will be updating with bugs, fixes with tags (later) to give a better understan
 more will be added as the need arises.
 
 
+## Steps
+1. clone repo
+2. create branch with feature/bug fix
+3. write tests for bug/feature
+4. submit PR
 
 
 
