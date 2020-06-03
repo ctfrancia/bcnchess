@@ -87,6 +87,14 @@ func (f *Form) PermittedValues(field string, opts ...string) {
 	f.Errors.Add(field, ErrFieldInvalid)
 }
 
+// PasswordsMatch checks when logging up before submitting the two passwords are correct
+func (f *Form) PasswordsMatch(f1, f2 string) {
+	field := "password"
+	if f1 != f2 {
+		f.Errors.Add(field, "Passwords do not match")
+	}
+}
+
 // Valid returns a boolean based on if there are errors within the map
 func (f *Form) Valid() bool {
 	return len(f.Errors) == 0
