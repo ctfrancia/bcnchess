@@ -3,7 +3,9 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"runtime/debug"
 	"time"
 
@@ -60,4 +62,31 @@ func (app *application) isAuthenticated(r *http.Request) bool {
 	}
 
 	return isAuthenticated
+}
+func uploadFile(w http.ResponseWriter, r *http.Request) string {
+	r.ParseMultipartForm(32 << 20)
+
+	file, handler, err := r.FormFile("poster")
+	if err != nil {
+		fmt.Println("Error getting file", err)
+		return ""
+	}
+	defer file.Close()
+
+	f, err := os.Create("./pkg/imgs/tournaments/" + handler.Filename)
+	if err != nil {
+		fmt.Println("Error saving", err)
+		return ""
+	}
+	defer f.Close()
+
+	io.Copy(f, file)
+	return "./pkg/imgs/tournaments" + handler.Filename
+}
+
+func convBool(val string) bool {
+	if val == "on" {
+		return true
+	}
+	return false
 }
