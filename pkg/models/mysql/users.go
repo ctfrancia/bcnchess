@@ -95,3 +95,18 @@ func (m *UserModel) Get(id int) (*models.User, error) {
 	}
 	return u, nil
 }
+
+// UpdatePassword updates the user's password
+func (m *UserModel) UpdatePassword(id int, pw string) error {
+	hp, err := bcrypt.GenerateFromPassword([]byte(pw), 12)
+	if err != nil {
+		return err
+	}
+	stmt := `UPDATE users SET password = ? WHERE id = ?`
+	_, err = m.DB.Exec(stmt, string(hp), id)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -37,11 +37,11 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 		LastName:         form.Get("lastName"),
 		Email:            form.Get("email"),
 		Password:         []byte(form.Get("password")),
-		Club:             "Congres C.E",
-		EloStandard:      "1700",
-		EloRapid:         "1700",
-		LichessUsername:  "",
-		ChesscomUsername: "",
+		Club:             form.Get("club"),
+		EloStandard:      form.Get("eloStandard"),
+		EloRapid:         form.Get("eloRapid"),
+		LichessUsername:  form.Get("lichessUsername"),
+		ChesscomUsername: form.Get("chesscomUsername"),
 	}
 	err = app.users.Insert(u)
 	if err != nil {
@@ -89,6 +89,11 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	app.session.Put(r, "authenticatedUserID", id)
+	path := app.session.PopString(r, "redirectPathAfterLogin")
+	if path != "" {
+		http.Redirect(w, r, path, http.StatusSeeOther)
+		return
+	}
 	http.Redirect(w, r, "/tournament/create", http.StatusSeeOther)
 }
 
@@ -96,4 +101,50 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	app.session.Remove(r, "authenticatedUserID")
 	app.session.Put(r, "flash", "You've been logged out successfully!")
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func (app *application) changePasswordForm(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "passwordChange.page.tmpl", &templateData{Form: forms.New(nil)})
+}
+
+func (app *application) updatePassword(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	form := forms.New(r.PostForm)
+
+	u, err := app.users.Get(app.session.GetInt(r, "authenticatedUserID"))
+	if err != nil {
+		app.serverError(w, err)
+	}
+
+	id, err := app.users.Authenticate(u.Email, form.Get("oldPassword"))
+	if err != nil {
+		if errors.Is(err, models.ErrInvalidCredentials) {
+			form.Errors.Add("oldPassword", "incorrect password")
+			app.render(w, r, "passwordChange.page.tmpl", &templateData{Form: form})
+		} else {
+			app.serverError(w, err)
+		}
+		return
+	}
+
+	form.MinLength("password1", 6)
+	form.MinLength("password2", 6)
+	form.PasswordsMatch(form.Get("password1"), form.Get("password2"))
+
+	if !form.Valid() {
+		app.render(w, r, "passwordChange.page.tmpl", &templateData{Form: form})
+		return
+	}
+
+	err = app.users.UpdatePassword(id, form.Get("password1"))
+	if err != nil {
+		app.serverError(w, err)
+	}
+
+	app.session.Put(r, "flash", "password updated successfully")
+	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
 }
