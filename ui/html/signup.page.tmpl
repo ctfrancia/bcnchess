@@ -34,6 +34,15 @@
         {{end}}
         <input type='password' name='password'>
     </div>
+
+    <div>
+        <label>Retype password:</label>
+        {{with .Errors.Get "password"}}
+            <label class='error'>{{.}}</label>
+        {{end}}
+        <input type='password' name='retypePassword'>
+    </div>
+
     <div>
         <input type='submit' value='Submit'>
     </div>

@@ -19,11 +19,13 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	form := forms.New(r.PostForm)
-	form.Required("firstName", "email", "password", "lastName")
+	form.Required("firstName", "email", "password", "lastName", "retypePassword")
+	form.PasswordsMatch(form.Get("password"), form.Get("retypePassword"))
 	form.MaxLength("firstName", 255)
 	form.MaxLength("email", 255)
 	form.MatchesPattern("email", forms.EmailRX)
 	form.MinLength("password", 6)
+	form.MinLength("retypePassword", 6)
 
 	if !form.Valid() {
 		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
@@ -57,6 +59,15 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "login.page.tmpl", &templateData{Form: forms.New(nil)})
+}
+
+func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
+	uID := app.session.GetInt(r, "authenticatedUserID")
+	u, err := app.users.Get(uID)
+	if err != nil {
+		app.serverError(w, err)
+	}
+	app.render(w, r, "user.page.tmpl", &templateData{UserProfile: u})
 }
 
 func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {

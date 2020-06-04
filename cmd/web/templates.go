@@ -17,6 +17,7 @@ type templateData struct {
 	IsAuthenticated bool
 	Tournament      *models.Tournament
 	Tournaments     []*models.Tournament
+	UserProfile     *models.User
 }
 
 var functions = template.FuncMap{

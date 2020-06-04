@@ -88,9 +88,9 @@ func (f *Form) PermittedValues(field string, opts ...string) {
 }
 
 // PasswordsMatch checks when logging up before submitting the two passwords are correct
-func (f *Form) PasswordsMatch(f1, f2 string) {
+func (f *Form) PasswordsMatch(p1, p2 string) {
 	field := "password"
-	if f1 != f2 {
+	if p1 != p2 {
 		f.Errors.Add(field, "Passwords do not match")
 	}
 }

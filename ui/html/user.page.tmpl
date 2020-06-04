@@ -1,0 +1,35 @@
+{{template "base" .}}
+
+{{define "title"}}Profile{{end}}
+
+{{define "main"}}
+<h2> Profile </h2>
+    {{with .UserProfile}}
+    <table>
+        <tr>
+            <th>Name:</th>
+            <td>{{.FirstName}} {{.LastName}}</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>{{.Email}}</td>
+        </tr>
+        <tr>
+            <th>Club:</th>
+            <td>{{.Club}}</td>
+        </tr>
+        <tr>
+            <th>Standard ELO:</th>
+            <td>{{.EloStandard}}</td>
+        </tr>
+        <tr>
+            <th>Rapid ELO:</th>
+            <td>{{.EloRapid}}</td>
+        </tr>
+        <tr>
+            <th>Joined</th>
+            <td>{{humanDate .Created}}</td>
+        </tr>
+    </table>
+    {{end}}
+{{end}}
