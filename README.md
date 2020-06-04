@@ -32,3 +32,4 @@ all cli commands can be seen by running `$ go run ./cmd/web -help`
 3. `-dsn="<user>:<password>"` - usern and password of the user who will be writing to the db. default is "chess-web:password"
 4. `-secret="<VALUE>"` - secret key used for the sessions token default: s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge
 5. `-secretLifetime="<NUMBER>"` - secret key's lifetime before the key is invalid, default is: 12 hours.
+6. `-debug=<BOOL>` - debug mode

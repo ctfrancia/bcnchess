@@ -21,6 +21,7 @@ type ServerConfig struct {
 	Session        *sessions.Session
 	secret         string
 	secretLifetime string
+	Debug          bool
 }
 
 // NewServerConfig is used at the beginning of a server start up and returns the ServerConfig struct with string values of the config
@@ -31,6 +32,7 @@ func NewServerConfig() *ServerConfig {
 	flag.StringVar(&cfg.Dsn, "dsn", "chess-web:password", "MySQL data source name <user>:<password>")
 	flag.StringVar(&cfg.secret, "secret", "s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge", "Secret key")
 	flag.StringVar(&cfg.secretLifetime, "secretLifetime", "12", "Secret key's lifetime")
+	flag.BoolVar(&cfg.Debug, "debug", false, "Debug mode")
 
 	cfg.Dsn += "@/bcnchess?parseTime=true"
 
