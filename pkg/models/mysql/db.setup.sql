@@ -15,6 +15,7 @@ CREATE TABLE tournaments (
   	tournamentType VARCHAR(100) NOT NULL,
   	rated TINYINT NOT NULL DEFAULT 0,
   	poster VARCHAR(200) NOT NULL,
+    tournamentContact VARCHAR(255) NOT NULL,
     created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expires DATETIME NOT NULL
 );

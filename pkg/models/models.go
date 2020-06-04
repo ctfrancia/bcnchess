@@ -27,6 +27,7 @@ type Tournament struct {
 	TournamentType        string
 	Rated                 bool
 	Poster                string
+	TournamentContact     string
 	Created               time.Time
 	Expires               time.Time
 }

@@ -24,13 +24,20 @@
             <label>Date of tournament:</label>
             <input type='date' name='tournamentDate'>
             <label>Starts time:</label>
-            <input type='tel' name='matchTimeStart'>
+            <input type='tel' name='matchTimeStart' value='{{.Get "matchTimeStart"}}'>
         </div>
         <div>
             <label>Time Control(3+2/5+0/etc):</label>
-            <input type='text' name='timeControl'>
-            <label>Type(Round Robin/Swiss/etc)</label>
-            <input type='text' name='tournamentType'>
+            <input type='text' name='timeControl' value='{{.Get "timeControl"}}'>
+            <label>Type(Round Robin/Swiss/etc):</label>
+            <input type='text' name='tournamentType' value='{{.Get "tournamentType"}}'>
+        </div>
+        <div>
+            <label>Tournament Contact Email:</label>
+            {{with .Errors.Get "tournamentContact"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <input type='email' name='tournamentContact' placeholder='questions should be emailed to this email address' value='{{.Get "tournamentContact"}}'>
         </div>
         <div class='metadata'>
             Is rated: <input type='checkbox' name='isRated'><br />
@@ -45,38 +52,9 @@
             <textarea name='additionalInformation'>{{.Get "additionalInformation"}}</textarea>
         </div>
     </div>
-    <label>Delete in:</label>
-            {{with .Errors.Get "expires"}}
-                <label class='error'>{{.}}</label>
-            {{end}}
-            {{$exp := or (.Get "expires") "365"}}
-            <input type='radio' name='expires' value='365' {{if (eq $exp "365")}}checked{{end}}> One Year
-            <input type='radio' name='expires' value='7' {{if (eq $exp "7")}}checked{{end}}> One Week
-            <input type='radio' name='expires' value='1' {{if (eq $exp "1")}}checked{{end}}> One Day
-        </div>
         <div>
             <input type='submit' value='Publish tournament'>
         </div>
     {{end}}
 </form>
 {{end}}
-<!--
-+-----------------------+--------------+------+-----+-------------------+-------------------+
-| Field                 | Type         | Null | Key | Default           | Extra             |
-+-----------------------+--------------+------+-----+-------------------+-------------------+
-| id                    | int          | NO   | PRI | NULL              | auto_increment    | ****
-| title                 | varchar(100) | NO   |     | NULL              |                   | ****
-| location              | varchar(255) | NO   |     | NULL              |                   | ****
-| matchTimeStart        | datetime     | NO   |     | NULL              |                   | ****
-| matchTimeEnd          | datetime     | NO   |     | NULL              |                   | ----
-| additionalInformation | text         | NO   |     | NULL              |                   | ****
-| isOnline              | tinyint      | NO   |     | 0                 |                   | ****
-| timeControl           | varchar(100) | NO   |     | NULL              |                   | ****
-| tournamentType        | varchar(100) | NO   |     | NULL              |                   | ****
-| rated                 | tinyint      | NO   |     | 0                 |                   |
-| poster                | varchar(200) | NO   |     | NULL              |                   |
-| created               | datetime     | NO   | MUL | NULL              |                   |
-| expires               | datetime     | NO   |     | NULL              |                   |
-| tournamentDate        | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+-----------------------+--------------+------+-----+-------------------+-------------------+
--->

@@ -36,7 +36,6 @@ func (app *application) createTournamentForm(w http.ResponseWriter, r *http.Requ
 
 func (app *application) createTournament(w http.ResponseWriter, r *http.Request) {
 	r.Header.Add("Content-Type", "multipart/form-data")
-	// filePath := uploadFile(w, r)
 	now := time.Now()
 	err := r.ParseForm()
 	if err != nil {
@@ -44,33 +43,34 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	form := forms.New(r.PostForm)
-	form.Required("title", "additionalInformation", "expires") // more will be added here
+	form.Required("title", "additionalInformation", "location", "matchTimeStart", "tournamentDate", "tournamentContact")
+	form.MatchesPattern("tournamentContact", forms.EmailRX)
 	form.MaxLength("title", 100)
-	form.PermittedValues("expires", "365", "7", "1")
 
 	if !form.Valid() {
-		app.render(w, r, "create.page.tmpl", &templateData{Form: form})
+		fmt.Println("errors", &templateData{Form: form})
 		return
 	}
-	c := convBool(form.Get("isOnline"))
-	fmt.Println(c)
+	td, err := time.Parse("2006-01-02", form.Get("tournamentDate"))
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+	}
 
 	data := &models.Tournament{
 		Title:                 form.Get("title"),
-		Location:              "location",
-		TournamentDate:        time.Now(),
-		MatchTimeStart:        "matchTimeStart",
+		Location:              form.Get("location"),
+		TournamentDate:        td,
+		MatchTimeStart:        form.Get("matchTimeStart"),
 		MatchTimeEnd:          "match time end",
-		AdditionalInformation: "additionalInformation",
-		IsOnline:              true,
-		TimeControl:           "timeControl",
-		TournamentType:        "tournamentType",
-		Rated:                 false,
-		Poster:                "filePath",
+		AdditionalInformation: form.Get("additionalInformation"),
+		IsOnline:              convBool(form.Get("isOnline")),
+		TimeControl:           form.Get("timeControl"),
+		TournamentType:        form.Get("tournamentType"),
+		Rated:                 convBool(form.Get("isRated")),
+		Poster:                uploadFile(w, r),
+		TournamentContact:     form.Get("tournamentContact"),
 		Created:               now,
-		Expires:               now.AddDate(0, 0, 1),
-		// TODO: above needs to be changed once I know the example string that we are receiving
-		// https://stackoverflow.com/questions/25845172/parsing-date-string-in-go
+		Expires:               td.AddDate(0, 0, 1),
 	}
 	id, err := app.tournaments.Insert(data)
 	if err != nil {

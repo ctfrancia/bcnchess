@@ -40,6 +40,9 @@
         {{with .Errors.Get "password"}}
             <label class='error'>{{.}}</label>
         {{end}}
+        {{with .Errors.Get "passwordsMatch"}}
+            <label class='error'>{{.}}</label>
+        {{end}}
         <input type='password' name='retypePassword'>
     </div>
 

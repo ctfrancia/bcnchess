@@ -17,13 +17,9 @@ type TournamentModel struct {
 func (m *TournamentModel) Insert(t *models.Tournament) (int, error) {
 	fmt.Println(t.Expires)
 	stmt := `INSERT INTO tournaments (
-			title, location, tournamentDate, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, created, expires
-			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
-	/*
-		stmt := `INSERT INTO tournaments (
-			title, location, tournamentDate, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, expires
-			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?,UTC_TIMESTAMP(), ?`
-	*/
+			title, location, tournamentDate, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, tournamentContact, created, expires
+			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
+
 	result, err := m.DB.Exec(stmt,
 		t.Title,
 		t.Location,
@@ -36,6 +32,7 @@ func (m *TournamentModel) Insert(t *models.Tournament) (int, error) {
 		t.TournamentType,
 		t.Rated,
 		t.Poster,
+		t.TournamentContact,
 		// t.Created,
 		t.Expires,
 	)
@@ -72,6 +69,7 @@ func (m *TournamentModel) Get(id int) (*models.Tournament, error) {
 		&t.TournamentType,
 		&t.Rated,
 		&t.Poster,
+		&t.TournamentContact,
 		&t.Created,
 		&t.Expires,
 	)
@@ -110,6 +108,7 @@ func (m *TournamentModel) Latest() ([]*models.Tournament, error) {
 			&t.TournamentType,
 			&t.Rated,
 			&t.Poster,
+			&t.TournamentContact,
 			&t.Created,
 			&t.Expires,
 		)

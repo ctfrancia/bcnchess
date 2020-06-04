@@ -72,8 +72,8 @@ func uploadFile(w http.ResponseWriter, r *http.Request) string {
 
 	file, handler, err := r.FormFile("poster")
 	if err != nil {
-		fmt.Println("Error getting file", err)
-		return ""
+		fmt.Println("Error getting file/no document uploaded", err)
+		return "/static/img/logo.png"
 	}
 	defer file.Close()
 

@@ -80,7 +80,7 @@ func TestSignupUser(t *testing.T) {
 		wantCode         int
 		wantBody         []byte
 	}{
-		{"Valid Submission", "John", "Doe", "john@example1.com", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusSeeOther, nil},
+		{"Valid Submission", "John", "Doe", "john@example1.com", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, nil},
 		{"Empty Name", "", "Doe", "john@example2.com", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(forms.ErrCannotBeBlank)},
 		{"Empty Lastname", "John", "", "john@example3.com", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(forms.ErrCannotBeBlank)},
 		{"Empty Email", "John", "Doe", "", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(forms.ErrCannotBeBlank)},
