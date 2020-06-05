@@ -7,17 +7,26 @@
     {{with .Tournament}}
     <div class='metadata'>
         <strong>{{.Title}}</strong>
-        <span>#{{.ID}}</span>
+        <strong> share tournament: https://localhost:4000/tournament/{{.ID}}</strong>
     </div>
     <pre><code>{{.AdditionalInformation}}</code></pre>
     <div class='metadata'>
         <div class='metadata'>
+            <time>Date: {{humanDate .TournamentDate}}</time>
             <time>Starts: {{.MatchTimeStart}}</time>
-            <time>Ends: {{.MatchTimeEnd}}</time>
+        </div>
+        <div class='metadata'>
+            <time>{{.Rated}}</time>
+            <time>{{.IsOnline}}</time>
+        </div>
+        <div class='metadata'>
+            <time>{{.TournamentType}}</time>
+            <time>{{.TimeControl}}</time>
         </div>
         <div class='metadata'>
             <time>Created: {{humanDate .Created}}</time>
             <time>Expires: {{humanDate .Expires}}</time>
+            <input type='email' value='{{.TournamentContact}}' readonly>
         </div>
     </div>
     {{end}}
