@@ -72,12 +72,11 @@ func uploadFile(w http.ResponseWriter, r *http.Request) string {
 
 	file, handler, err := r.FormFile("poster")
 	if err != nil {
-		fmt.Println("Error getting file/no document uploaded", err)
 		return "/static/img/logo.png"
 	}
 	defer file.Close()
 
-	f, err := os.Create("./pkg/imgs/tournaments/" + handler.Filename)
+	f, err := os.Create("./ui/static/imgs/tournaments/" + handler.Filename)
 	if err != nil {
 		fmt.Println("Error saving", err)
 		return ""
@@ -85,7 +84,8 @@ func uploadFile(w http.ResponseWriter, r *http.Request) string {
 	defer f.Close()
 
 	io.Copy(f, file)
-	return "./pkg/imgs/tournaments" + handler.Filename
+	// return "ui/static/imgs/tournaments/" + handler.Filename
+	return "image/" + handler.Filename
 }
 
 func convBool(val string) bool {
