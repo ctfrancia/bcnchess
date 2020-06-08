@@ -14,7 +14,7 @@ func TestHumanDate(t *testing.T) {
 		{
 			name: "UTC",
 			tm:   time.Date(2020, 12, 17, 10, 0, 0, 0, time.UTC),
-			want: "17 Dec 2020 at 10:00",
+			want: "17 Dec 2020",
 		},
 		{
 			name: "Empty",
@@ -24,7 +24,7 @@ func TestHumanDate(t *testing.T) {
 		{
 			name: "CET",
 			tm:   time.Date(2020, 12, 17, 10, 0, 0, 0, time.FixedZone("CET", 1*60*60)),
-			want: "17 Dec 2020 at 09:00",
+			want: "17 Dec 2020",
 		},
 	}
 
