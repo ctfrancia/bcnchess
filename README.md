@@ -23,8 +23,20 @@ THIS IS DONE FOR BOTH SETTING UP A LOCAL ENVIRONMENT AND FOR RUNNING INTEGRATION
 - After a tournament is complete be able to update metadata related to the tournament for people to later see
 - create `match` database where users can save their games, storing PEN so they can see their matches later for viewing(NOSQL database will likely be best option here)
 - More will be added as the site comes online
-## flags
-### reminder
+
+## Getting Started
+- The first thing that you will need to do is go to their [official install website](https://golang.org/doc/install) and download the source code for your OS. You can check the installation was correct by doing `go version`
+- Note: that in your rc file (`.bachrc` or `.zshrc` you will need to export the path. if you folowed the instructions on the official website then you should be able to export the gopath with: `export GOPATH=$HOME/Documents/goworkspace`). The `$HOME` variable is equvilent to `~` command in the linux shell.
+- after following the instructions create a folder somewhere on your machine where you will have all the Go code. For example on my machine(MacOS) all my Go code is located at `/Users/<USER_NAME>/Documents/goworkspace` when there I have three three folders `bin` `pkg` `src` so run the command `mkdir pkg src bin` this will create the three folders on linux/mac. 
+- `bin` holds the binaries, `pkg` holds the packages, and `src` holds all the source files(go code)
+- cd into `src` and create a folder called `github.com`, this is a convension the idea is that there needs to be a unique name to prevent any name collision within packages. After that, cd into `github.com` and create a folder with your username on github. Once inside there you can clone the repo into that file path.
+- for example the full path to the code on my machine is: `/Users/<USER_NAME>/Documents/goworkspace/src/github.com/ctfrancia/bcnchess`
+- After all that is done. make sure you have MySql downloaded and installed with all the correct permissions. (the script isn't done yet to automate the db set up and seed, however, you will see the code in the path `/pkg/models/mysql/db.setup.sql`) which you can copy and paste into your terminal as needed.
+- to launch the application. from the root directory (`/github.com/ctfrancia/bcnchess`) run the command `go run ./cmd/web` and if all is working you will see the port that it is listening on (default is 4000)
+
+
+## Flags
+### Reminder
 all cli commands can be seen by running `$ go run ./cmd/web -help`
 
 1. `-addr=":<NUMBER>"` - this is used to set the address, default is :4000
@@ -32,4 +44,4 @@ all cli commands can be seen by running `$ go run ./cmd/web -help`
 3. `-dsn="<user>:<password>"` - usern and password of the user who will be writing to the db. default is "chess-web:password"
 4. `-secret="<VALUE>"` - secret key used for the sessions token default: s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge
 5. `-secretLifetime="<NUMBER>"` - secret key's lifetime before the key is invalid, default is: 12 hours.
-6. `-debug=<BOOL>` - debug mode
+6. `-debug=<BOOL>` - debug mode (errors with stack stracing shows up in the browser instead of the terminal)

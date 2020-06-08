@@ -19,4 +19,4 @@ more will be added as the need arises.
 
 
 ## Contributers
-- Christian francia [twitter](https://twitter.com/BarnaChristian) [github](https://github.com/ctfrancia)
+- Christian Francia [twitter](https://twitter.com/BarnaChristian) [github](https://github.com/ctfrancia)
