@@ -59,3 +59,8 @@ func (m *UserModel) Get(id int) (*models.User, error) {
 func (m *UserModel) UpdatePassword(id int, pw string) error {
 	return nil
 }
+
+// AddUserToTournament mocks our normal function
+func (m *UserModel) AddUserToTournament(tID, uID int) error {
+	return nil
+}

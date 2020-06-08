@@ -159,6 +159,5 @@ func (app *application) addUserToTournament(w http.ResponseWriter, r *http.Reque
 
 	err = app.users.AddUserToTournament(tournamentID, userID)
 	if err != nil {
-
 	}
 }
