@@ -2,9 +2,10 @@ import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { updateIsLoggedIn } from '../app/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Header = () => {
+  const isUserLoggedIn = useSelector(state => state.user.isLoggedIn)
   const dispatch = useDispatch();
 
   return (
@@ -13,10 +14,14 @@ const Header = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link as={Link} to="/home">Home</Nav.Link>
-          <Nav.Link as={Link} to="/about">About</Nav.Link>
+          {isUserLoggedIn ? (
+            <>
+              <Nav.Link as={Link} to="/home">Home</Nav.Link>
+              <Nav.Link as={Link} to="/about">About</Nav.Link>
+            </>
+            ): ''}
         </Nav>
-        <Button variant='outline-danger' onClick={() => dispatch(updateIsLoggedIn(false))}>logout</Button>
+        {isUserLoggedIn ? <Button variant='outline-danger' onClick={() => dispatch(updateIsLoggedIn(false))}>logout</Button> : ''}
       </Navbar.Collapse>
     </Navbar>
   );
