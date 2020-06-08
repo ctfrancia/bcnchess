@@ -16,9 +16,7 @@ const Header = () => {
           <Nav.Link as={Link} to="/home">Home</Nav.Link>
           <Nav.Link as={Link} to="/about">About</Nav.Link>
         </Nav>
-        <Nav>
-          <Button variant='outline-danger' onClick={() => dispatch(updateIsLoggedIn(false))}>logout</Button>
-        </Nav>
+        <Button variant='outline-danger' onClick={() => dispatch(updateIsLoggedIn(false))}>logout</Button>
       </Navbar.Collapse>
     </Navbar>
   );
