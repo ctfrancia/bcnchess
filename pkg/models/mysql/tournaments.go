@@ -33,7 +33,6 @@ func (m *TournamentModel) Insert(t *models.Tournament) (int, error) {
 		t.Rated,
 		t.Poster,
 		t.TournamentContact,
-		// t.Created,
 		t.Expires,
 	)
 	if err != nil {
