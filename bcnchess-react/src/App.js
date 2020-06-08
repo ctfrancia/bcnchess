@@ -1,19 +1,27 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import './App.css';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import Header from './components/Header';
-import Home from './components/home/Home';
-import About from './components/about/About';
+import Login from './components/Login';
+import ProtectedRoutes from './components/authenticated/ProtectedRoutes';
+import { Container } from 'react-bootstrap';
+
 
 function App() {
+  const isUserLoggedIn = useSelector(state => state.user.isLoggedIn)
+
   return (
     <Router>
       <Header />
-      <Switch>
-        <Route exact path='/'><Redirect to='/home' /></Route>
-        <Route path='/home'><Home /></Route>
-        <Route path='/about'><About /></Route>
-      </Switch>
+      <Container>
+        <Switch>
+          <Route exact path='/login'>{isUserLoggedIn ? <ProtectedRoutes /> : <Login />}</Route>
+          <Route path='/'>{isUserLoggedIn ? <ProtectedRoutes /> : <Redirect to='/login' />}</Route>
+        </Switch>
+      </Container>
+      
     </Router>
   );
 }
