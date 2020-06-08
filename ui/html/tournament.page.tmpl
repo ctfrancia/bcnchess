@@ -17,20 +17,20 @@
     <pre><code>{{.AdditionalInformation}}</code></pre>
     <div class='metadata'>
         <div class='metadata'>
-            <time>Date: {{humanDate .TournamentDate}}</time>
-            <time>Starts: {{.MatchTimeStart}}</time>
+            <time><strong>Date</strong>: {{humanDate .TournamentDate}}</time>
+            <time><strong>Starts</strong>: {{.MatchTimeStart}}</time>
         </div>
         <div class='metadata'>
-            <time>Rated: {{.Rated}}</time>
-            <time>Online: {{.IsOnline}}</time>
+            <time><strong>Rated</strong>: {{.Rated}}</time>
+            <time><strong>Online</strong>: {{.IsOnline}}</time>
         </div>
         <div class='metadata'>
-            <time>Tournament Type: {{.TournamentType}}</time>
-            <time>Time Control: {{.TimeControl}}</time>
+            <time><strong>Tournament Type</strong>: {{.TournamentType}}</time>
+            <time><strong>Time Control</strong>: {{.TimeControl}}</time>
         </div>
         <div class='metadata'>
-            <time>Created: {{humanDate .Created}}</time>
-            <time>Expires: {{humanDate .Expires}}</time>
+            <time><strong>Created</strong>: {{humanDate .Created}}</time>
+            <time><strong>Expires</strong>: {{humanDate .Expires}}</time>
         </div>
     </div>
     {{end}}

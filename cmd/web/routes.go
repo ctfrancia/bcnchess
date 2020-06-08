@@ -31,16 +31,15 @@ func (app *application) routes() http.Handler {
 
 	mux.Get("/ping", http.HandlerFunc(ping))
 
+	// serving static files
 	fileServer := http.FileServer(http.Dir(app.staticFiles))
 	mux.Get("/static/", http.StripPrefix("/static", fileServer))
 
 	tImgFileServer := http.FileServer(http.Dir(app.tournamentImages))
 	mux.Get("/tournament/img/", http.StripPrefix("/tournament/img", tImgFileServer))
 
-	//uImgFileServer := http.FileServer(http.Dir(app.userImages))
-
-	// mux.Get("/image/", http.StripPrefix("/image/", http.FileServer(http.Dir("/ui/static"))))
-	// http.Handle("/tournament/img/", http.StripPrefix("/pkg/imgs/tournaments/", http.FileServer(http.Dir("ui"))))
+	uImgFileServer := http.FileServer(http.Dir(app.userImages))
+	mux.Get("/user/img/", http.StripPrefix("/user/img", uImgFileServer))
 
 	return standardMiddleware.Then(mux)
 }
