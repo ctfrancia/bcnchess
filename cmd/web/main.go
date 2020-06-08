@@ -23,12 +23,14 @@ type contextKey string
 const contextKeyIsAuthenticated = contextKey("isAuthenticated")
 
 type application struct {
-	errorLog     *log.Logger
-	infoLog      *log.Logger
-	serverConfig *cli.ServerConfig
-	staticFiles  string
-	session      *sessions.Session
-	tournaments  interface {
+	errorLog         *log.Logger
+	infoLog          *log.Logger
+	serverConfig     *cli.ServerConfig
+	staticFiles      string
+	tournamentImages string
+	userImages       string
+	session          *sessions.Session
+	tournaments      interface {
 		Insert(*models.Tournament) (int, error)
 		Get(int) (*models.Tournament, error)
 		Latest() ([]*models.Tournament, error)
@@ -59,13 +61,15 @@ func main() {
 	}
 
 	app := &application{
-		errorLog:      errorLog,
-		infoLog:       infoLog,
-		staticFiles:   serverConfig.StaticFiles,
-		session:       serverConfig.Session,
-		tournaments:   &mysql.TournamentModel{DB: db},
-		templateCache: templateCache,
-		users:         &mysql.UserModel{DB: db},
+		errorLog:         errorLog,
+		infoLog:          infoLog,
+		staticFiles:      serverConfig.StaticFiles,
+		tournamentImages: "./ui/static/imgs/tournaments",
+		userImages:       "./ui/static/imgs/users",
+		session:          serverConfig.Session,
+		tournaments:      &mysql.TournamentModel{DB: db},
+		templateCache:    templateCache,
+		users:            &mysql.UserModel{DB: db},
 	}
 
 	tlsConfig := &tls.Config{

@@ -84,8 +84,7 @@ func uploadFile(w http.ResponseWriter, r *http.Request) string {
 	defer f.Close()
 
 	io.Copy(f, file)
-	// return "ui/static/imgs/tournaments/" + handler.Filename
-	return "image/" + handler.Filename
+	return "/tournament/img/" + handler.Filename
 }
 
 func convBool(val string) bool {
