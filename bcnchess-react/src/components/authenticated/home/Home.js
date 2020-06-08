@@ -1,9 +1,10 @@
 import React from 'react';
+import LatestTournaments from './LatestTournaments';
 
 const Home = () => {
   return (
     <div>
-      Home
+      <LatestTournaments />
     </div>
   );
 };
