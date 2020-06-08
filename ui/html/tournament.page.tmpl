@@ -6,9 +6,14 @@
 <div class='snippet'>
     {{with .Tournament}}
     <div class='metadata'>
-        <strong>{{.Title}}</strong>
-        <strong> share tournament: https://localhost:4000/tournament/{{.ID}}</strong>
+        <time><strong>{{.Title}}</strong></time>
+        <time><strong> Share tournament: https://localhost:4000/tournament/{{.ID}}</strong></time>
     </div>
+    <div class='metadata'>
+        <strong>Location</strong>: {{.Location}}<br/>
+        <strong>Host Contact</strong>: {{.TournamentContact}}
+    </div>
+    <img src='{{.Poster}}'>
     <pre><code>{{.AdditionalInformation}}</code></pre>
     <div class='metadata'>
         <div class='metadata'>
@@ -26,7 +31,6 @@
         <div class='metadata'>
             <time>Created: {{humanDate .Created}}</time>
             <time>Expires: {{humanDate .Expires}}</time>
-            <input type='email' value='{{.TournamentContact}}' readonly>
         </div>
     </div>
     {{end}}
