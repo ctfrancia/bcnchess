@@ -17,7 +17,7 @@ function App() {
       <Header />
       <Container>
         <Switch>
-          <Route exact path='/login'>{isUserLoggedIn ? <ProtectedRoutes /> : <Login />}</Route>
+          <Route exact path='/login'>{isUserLoggedIn ? <Redirect to='/' /> : <Login />}</Route>
           <Route path='/'>{isUserLoggedIn ? <ProtectedRoutes /> : <Redirect to='/login' />}</Route>
         </Switch>
       </Container>
