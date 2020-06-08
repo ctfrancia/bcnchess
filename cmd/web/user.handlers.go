@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/ctfrancia/bcnchess/pkg/forms"
 	"github.com/ctfrancia/bcnchess/pkg/models"
@@ -147,4 +148,17 @@ func (app *application) updatePassword(w http.ResponseWriter, r *http.Request) {
 
 	app.session.Put(r, "flash", "password updated successfully")
 	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
+}
+
+func (app *application) addUserToTournament(w http.ResponseWriter, r *http.Request) {
+	tournamentID, err := strconv.Atoi(r.URL.Query().Get(":id"))
+	if err != nil || tournamentID < 1 {
+		app.notFound(w)
+	}
+	userID := app.session.GetInt(r, "authenticatedUserID")
+
+	err = app.users.AddUserToTournament(tournamentID, userID)
+	if err != nil {
+
+	}
 }

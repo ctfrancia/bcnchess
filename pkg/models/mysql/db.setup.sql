@@ -17,12 +17,13 @@ CREATE TABLE tournaments (
   	poster VARCHAR(200) NOT NULL,
     tournamentContact VARCHAR(255) NOT NULL,
     created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    expires DATETIME NOT NULL
+    expires DATETIME NOT NULL,
+
 );
 
 CREATE INDEX idx_tournaments ON tournaments(created);
 
-INSERT INTO tournaments (title, location, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, created, expires) VALUES (
+INSERT INTO tournaments (title, location, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, tournamentContact, created, expires) VALUES (
     'cool tournament one',
     'https://lichess.org/pEQoPXt5F2mz',
     UTC_TIMESTAMP(),
@@ -32,12 +33,13 @@ INSERT INTO tournaments (title, location, matchTimeStart, matchTimeEnd, addition
   	'3+2',
   	'Round Robin',
   	1,
-  	"./ui/static/image/logo.png",
+  	'./ui/static/image/logo.png',
+    'test@example.com',
   	UTC_TIMESTAMP(),
   	DATE_ADD(UTC_TIMESTAMP(), INTERVAL 1 MINUTE)
 );
 
-INSERT INTO tournaments (title, location, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, created, expires) VALUES (
+INSERT INTO tournaments (title, location, matchTimeStart, matchTimeEnd, additionalInformation, isOnline, timeControl, tournamentType, rated, poster, tournamentContact, created, expires) VALUES (
     'cool tournament two',
     'https://lichess.org/pEQoPXt5F2mz',
     UTC_TIMESTAMP(),
@@ -48,6 +50,7 @@ INSERT INTO tournaments (title, location, matchTimeStart, matchTimeEnd, addition
   	'Swiss',
   	0,
   	"./ui/static/image/logo.png",
+    'test@example.com',
   	UTC_TIMESTAMP(),
   	DATE_ADD(UTC_TIMESTAMP(), INTERVAL 1 MINUTE)
 );
@@ -70,7 +73,8 @@ CREATE TABLE users(
   lichessUsername VARCHAR(255) NOT NULL DEFAULT "na",
   chesscomUsername VARCHAR(255) NOT NULL DEFAULT "na",
   created DATETIME NOT NULL,
-  active BOOLEAN NOT NULL DEFAULT TRUE
+  active BOOLEAN NOT NULL DEFAULT TRUE,
+  PRIMARY KEY('id')
 );
 
 ALTER TABLE users ADD CONSTRAINT users_us_email UNIQUE (email);
