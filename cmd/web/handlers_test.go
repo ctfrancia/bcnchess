@@ -157,6 +157,16 @@ func TestCreateTournamentForm(t *testing.T) {
 	})
 }
 
+func TestAddUserToTournament(t *testing.T) {
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+	defer ts.Close()
+
+	t.Run("Successful Update", func(t *testing.T) {
+		ts.addUserToTournament(1, 1)
+	})
+}
+
 /*
 func TestGetTournament(t *testing.T) {
 	if testing.Short() {

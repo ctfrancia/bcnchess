@@ -110,3 +110,13 @@ func (m *UserModel) UpdatePassword(id int, pw string) error {
 	}
 	return nil
 }
+
+// AddUserToTournament adds the user to the tournament based on the user's ID and tournament's ID for use in a 1-M relation
+func (m *UserModel) AddUserToTournament(tID, uID int) error {
+	stmt := `UPDATE tournaments SET user_id = ? WHERE id = ?`
+	_, err := m.DB.Exec(stmt, uID, tID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
