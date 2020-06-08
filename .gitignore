@@ -1,4 +1,4 @@
 tls/
 tags
-pkg/imgs/tournaments/
-pkg/imgs/users/
+ui/static/imgs/tournaments/
+ui/static/imgs/users/
