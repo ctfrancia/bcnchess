@@ -40,16 +40,23 @@ type userResponse struct {
 
 func (app *application) getLatest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var jsonData []byte
 
 	tournaments, err := app.tournaments.Latest()
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
-	jsonData, err = json.Marshal(tournaments)
+
+	jsonData, err := json.Marshal(tournaments)
 	if err != nil {
 		app.serverError(w, err)
 	}
 	w.Write(jsonData)
+}
+
+func (app *application) getSingleTournament(w http.ResponseWriter, r *http.Request) {
+	/*
+		var jsonData []byte
+		t, err := app.
+	*/
 }
