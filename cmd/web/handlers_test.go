@@ -157,15 +157,20 @@ func TestCreateTournamentForm(t *testing.T) {
 	})
 }
 
+/*
 func TestAddUserToTournament(t *testing.T) {
 	app := newTestApplication(t)
 	ts := newTestServer(t, app.routes())
 	defer ts.Close()
 
 	t.Run("Successful Update", func(t *testing.T) {
-		ts.addUserToTournament(1, 1)
+		err := ts.put() // AddUserToTournament(1, 1)
+		if err != nil {
+			t.Error("error when adding foreign key in tournament table with a user id", err)
+		}
 	})
 }
+*/
 
 /*
 func TestGetTournament(t *testing.T) {
