@@ -51,6 +51,5 @@ func (app *application) getLatest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		app.serverError(w, err)
 	}
-	// fmt.Println(string([]byte(jsonData)))
 	w.Write(jsonData)
 }
