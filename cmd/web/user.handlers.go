@@ -66,7 +66,7 @@ func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
 	uID := app.session.GetInt(r, "authenticatedUserID")
 	u, err := app.users.Get(uID)
 	if err != nil {
-		app.serverError(w, err)
+		app.notFound(w)
 	}
 	app.render(w, r, "user.page.tmpl", &templateData{UserProfile: u})
 }

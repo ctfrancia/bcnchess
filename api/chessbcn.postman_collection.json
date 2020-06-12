@@ -7,38 +7,40 @@
 	},
 	"item": [
 		{
-			"name": "Get latest tournaments",
+			"name": "https://localhost:4000/api/tournament/latest",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:4000/tournament/latest",
+					"raw": "https://localhost:4000/api/tournament/latest",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "4000",
 					"path": [
+						"api",
 						"tournament",
 						"latest"
 					]
 				},
-				"description": "This will fetch all the tournaments that are currently not expired from the database."
+				"description": "get the latest tournaments from the Database where they are not expired based on the expiration date"
 			},
 			"response": [
 				{
-					"name": "Get latest tournaments",
+					"name": "https://localhost:4000/api/tournament/latest",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:4000/tournament/latest",
+							"raw": "https://localhost:4000/api/tournament/latest",
 							"protocol": "https",
 							"host": [
 								"localhost"
 							],
 							"port": "4000",
 							"path": [
+								"api",
 								"tournament",
 								"latest"
 							]
@@ -62,7 +64,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Tue, 09 Jun 2020 10:16:10 GMT"
+							"value": "Tue, 09 Jun 2020 11:30:13 GMT"
 						},
 						{
 							"key": "Transfer-Encoding",
@@ -70,7 +72,77 @@
 						}
 					],
 					"cookie": [],
-					"body": "[\n    {\n        \"ID\": 8,\n        \"Title\": \"Cool Tournament 1\",\n        \"Location\": \"123 Main street\",\n        \"TournamentDate\": \"2020-06-09T00:00:00Z\",\n        \"MatchTimeStart\": \"1230\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"Here will be additional information about the tournament\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"5+0\",\n        \"TournamentType\": \"Swiss\",\n        \"Rated\": true,\n        \"Poster\": \"/tournament/img/Screenshot 2020-05-23 at 23.51.58.png\",\n        \"TournamentContact\": \"asdf@asdf.com\",\n        \"Created\": \"2020-06-08T11:49:08Z\",\n        \"Expires\": \"2025-12-19T11:49:08Z\"\n    },\n    {\n        \"ID\": 7,\n        \"Title\": \"sfdgsdfg\",\n        \"Location\": \"sdfgsdfg\",\n        \"TournamentDate\": \"2020-06-09T00:00:00Z\",\n        \"MatchTimeStart\": \"1233\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"sadfasdf\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"123\",\n        \"TournamentType\": \"123\",\n        \"Rated\": true,\n        \"Poster\": \"/static/imgs/Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"dwf@aef.com\",\n        \"Created\": \"2020-06-08T11:33:54Z\",\n        \"Expires\": \"2025-12-19T11:33:54Z\"\n    },\n    {\n        \"ID\": 6,\n        \"Title\": \"asdf\",\n        \"Location\": \"adsfasdf\",\n        \"TournamentDate\": \"2020-06-09T00:00:00Z\",\n        \"MatchTimeStart\": \"1231\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"ewrqwer\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"123\",\n        \"TournamentType\": \"123\",\n        \"Rated\": false,\n        \"Poster\": \"/static/img/logo.png\",\n        \"TournamentContact\": \"23@asdf.com\",\n        \"Created\": \"2020-06-08T11:31:24Z\",\n        \"Expires\": \"2025-12-19T11:31:24Z\"\n    },\n    {\n        \"ID\": 5,\n        \"Title\": \"bsdfg\",\n        \"Location\": \"zxcvbzxcv\",\n        \"TournamentDate\": \"2020-06-18T00:00:00Z\",\n        \"MatchTimeStart\": \"zxcvzxcv\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"sadfrasdfasd\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"zcxvz\",\n        \"TournamentType\": \"zcv\",\n        \"Rated\": true,\n        \"Poster\": \"ui/static/imgs/tournaments/Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"zzxcv@gads.com\",\n        \"Created\": \"2020-06-08T11:16:23Z\",\n        \"Expires\": \"2025-12-19T11:16:23Z\"\n    },\n    {\n        \"ID\": 4,\n        \"Title\": \"1231231\",\n        \"Location\": \"sfdgsfgsdfg\",\n        \"TournamentDate\": \"2020-06-18T00:00:00Z\",\n        \"MatchTimeStart\": \"1231\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"adfgfdgsd\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"3+2\",\n        \"TournamentType\": \"asdf\",\n        \"Rated\": true,\n        \"Poster\": \"ui/imgs/tournaments/Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"test@examoke.con\",\n        \"Created\": \"2020-06-08T11:07:18Z\",\n        \"Expires\": \"2025-12-19T11:07:18Z\"\n    },\n    {\n        \"ID\": 3,\n        \"Title\": \"fgdfgsdfg\",\n        \"Location\": \"dasfasdfa\",\n        \"TournamentDate\": \"2020-06-04T00:00:00Z\",\n        \"MatchTimeStart\": \"213213\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"sdgsgsdfgsdfgsdf\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"adfasdf\",\n        \"TournamentType\": \"qeqwe\",\n        \"Rated\": true,\n        \"Poster\": \"Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"sDad@sadgf.com\",\n        \"Created\": \"2020-06-08T10:58:47Z\",\n        \"Expires\": \"2025-12-19T10:58:47Z\"\n    },\n    {\n        \"ID\": 2,\n        \"Title\": \"Super cool tournament\",\n        \"Location\": \"123 Main street\",\n        \"TournamentDate\": \"2020-06-10T00:00:00Z\",\n        \"MatchTimeStart\": \"1500\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"some additional information about the tournament that is relevent\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"3+2\",\n        \"TournamentType\": \"Swiss\",\n        \"Rated\": true,\n        \"Poster\": \"./pkg/imgs/tournamentsScreenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"test@example.com\",\n        \"Created\": \"2020-06-08T10:39:05Z\",\n        \"Expires\": \"2025-12-19T10:39:05Z\"\n    },\n    {\n        \"ID\": 1,\n        \"Title\": \"sdfgsfdgsdfg\",\n        \"Location\": \"asdfa\",\n        \"TournamentDate\": \"2020-06-05T00:00:00Z\",\n        \"MatchTimeStart\": \"1200\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"fdgsdfg\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"3+2\",\n        \"TournamentType\": \"Swiss\",\n        \"Rated\": true,\n        \"Poster\": \"/static/img/logo.png\",\n        \"TournamentContact\": \"ctfrancia@gmail.com\",\n        \"Created\": \"2020-06-04T19:16:57Z\",\n        \"Expires\": \"2025-12-15T19:16:57Z\"\n    }\n]"
+					"body": "[\n    {\n        \"ID\": 8,\n        \"Title\": \"Tournament1\",\n        \"Location\": \"123 main street\",\n        \"TournamentDate\": \"2020-06-09T00:00:00Z\",\n        \"MatchTimeStart\": \"1230\",\n        \"MatchTimeEnd\": \"0000\",\n        \"AdditionalInformation\": \"Additional information about the tournament\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"5+0\",\n        \"TournamentType\": \"Swiss\",\n        \"Rated\": true,\n        \"Poster\": \"/tournament/img/Screenshot 2020-05-23 at 23.51.58.png\",\n        \"TournamentContact\": \"asdf@asdf.com\",\n        \"Created\": \"2020-06-08T11:49:08Z\",\n        \"Expires\": \"2025-12-19T11:49:08Z\"\n    },\n    {\n        \"ID\": 7,\n        \"Title\": \"sfdgsdfg\",\n        \"Location\": \"sdfgsdfg\",\n        \"TournamentDate\": \"2020-06-09T00:00:00Z\",\n        \"MatchTimeStart\": \"1233\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"sadfasdf\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"123\",\n        \"TournamentType\": \"123\",\n        \"Rated\": true,\n        \"Poster\": \"/static/imgs/Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"dwf@aef.com\",\n        \"Created\": \"2020-06-08T11:33:54Z\",\n        \"Expires\": \"2025-12-19T11:33:54Z\"\n    },\n    {\n        \"ID\": 6,\n        \"Title\": \"asdf\",\n        \"Location\": \"adsfasdf\",\n        \"TournamentDate\": \"2020-06-09T00:00:00Z\",\n        \"MatchTimeStart\": \"1231\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"ewrqwer\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"123\",\n        \"TournamentType\": \"123\",\n        \"Rated\": false,\n        \"Poster\": \"/static/img/logo.png\",\n        \"TournamentContact\": \"23@asdf.com\",\n        \"Created\": \"2020-06-08T11:31:24Z\",\n        \"Expires\": \"2025-12-19T11:31:24Z\"\n    },\n    {\n        \"ID\": 5,\n        \"Title\": \"bsdfg\",\n        \"Location\": \"zxcvbzxcv\",\n        \"TournamentDate\": \"2020-06-18T00:00:00Z\",\n        \"MatchTimeStart\": \"zxcvzxcv\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"sadfrasdfasd\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"zcxvz\",\n        \"TournamentType\": \"zcv\",\n        \"Rated\": true,\n        \"Poster\": \"ui/static/imgs/tournaments/Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"zzxcv@gads.com\",\n        \"Created\": \"2020-06-08T11:16:23Z\",\n        \"Expires\": \"2025-12-19T11:16:23Z\"\n    },\n    {\n        \"ID\": 4,\n        \"Title\": \"1231231\",\n        \"Location\": \"sfdgsfgsdfg\",\n        \"TournamentDate\": \"2020-06-18T00:00:00Z\",\n        \"MatchTimeStart\": \"1231\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"adfgfdgsd\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"3+2\",\n        \"TournamentType\": \"asdf\",\n        \"Rated\": true,\n        \"Poster\": \"ui/imgs/tournaments/Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"test@examoke.con\",\n        \"Created\": \"2020-06-08T11:07:18Z\",\n        \"Expires\": \"2025-12-19T11:07:18Z\"\n    },\n    {\n        \"ID\": 3,\n        \"Title\": \"fgdfgsdfg\",\n        \"Location\": \"dasfasdfa\",\n        \"TournamentDate\": \"2020-06-04T00:00:00Z\",\n        \"MatchTimeStart\": \"213213\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"sdgsgsdfgsdfgsdf\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"adfasdf\",\n        \"TournamentType\": \"qeqwe\",\n        \"Rated\": true,\n        \"Poster\": \"Screenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"sDad@sadgf.com\",\n        \"Created\": \"2020-06-08T10:58:47Z\",\n        \"Expires\": \"2025-12-19T10:58:47Z\"\n    },\n    {\n        \"ID\": 2,\n        \"Title\": \"Super cool tournament\",\n        \"Location\": \"123 Main street\",\n        \"TournamentDate\": \"2020-06-10T00:00:00Z\",\n        \"MatchTimeStart\": \"1500\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"some additional information about the tournament that is relevent\",\n        \"IsOnline\": true,\n        \"TimeControl\": \"3+2\",\n        \"TournamentType\": \"Swiss\",\n        \"Rated\": true,\n        \"Poster\": \"./pkg/imgs/tournamentsScreenshot 2020-05-27 at 23.17.26.png\",\n        \"TournamentContact\": \"test@example.com\",\n        \"Created\": \"2020-06-08T10:39:05Z\",\n        \"Expires\": \"2025-12-19T10:39:05Z\"\n    },\n    {\n        \"ID\": 1,\n        \"Title\": \"sdfgsfdgsdfg\",\n        \"Location\": \"asdfa\",\n        \"TournamentDate\": \"2020-06-05T00:00:00Z\",\n        \"MatchTimeStart\": \"1200\",\n        \"MatchTimeEnd\": \"match time end\",\n        \"AdditionalInformation\": \"fdgsdfg\",\n        \"IsOnline\": false,\n        \"TimeControl\": \"3+2\",\n        \"TournamentType\": \"Swiss\",\n        \"Rated\": true,\n        \"Poster\": \"/static/img/logo.png\",\n        \"TournamentContact\": \"ctfrancia@gmail.com\",\n        \"Created\": \"2020-06-04T19:16:57Z\",\n        \"Expires\": \"2025-12-15T19:16:57Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "https://localhost:4000/api/tournament/8",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:4000/api/tournament/8",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tournament",
+						"8"
+					]
+				},
+				"description": "Fetch a tournament the last number is going is the id.\nThe path is: https://localhost:4000/api/tournament/:id"
+			},
+			"response": [
+				{
+					"name": "https://localhost:4000/api/tournament/8",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:4000/api/tournament/8",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"tournament",
+								"8"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "deny"
+						},
+						{
+							"key": "X-Xxs-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Jun 2020 10:55:08 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "417"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"ID\": 8,\n    \"Title\": \"Tournament title here\",\n    \"Location\": \"123 Main street\",\n    \"TournamentDate\": \"2020-06-09T00:00:00Z\",\n    \"MatchTimeStart\": \"1230\",\n    \"MatchTimeEnd\": \"0000\",\n    \"AdditionalInformation\": \"Additional information about the tournament here\",\n    \"IsOnline\": false,\n    \"TimeControl\": \"5+0\",\n    \"TournamentType\": \"Swiss\",\n    \"Rated\": true,\n    \"Poster\": \"/tournament/img/Screenshot 2020-05-23 at 23.51.58.png\",\n    \"TournamentContact\": \"test@example.com\",\n    \"Created\": \"2020-06-08T11:49:08Z\",\n    \"Expires\": \"2025-12-19T11:49:08Z\"\n}"
 				}
 			]
 		}
