@@ -16,8 +16,8 @@ func (app *application) routes() http.Handler {
 	mux.Get("/about", dynamicMiddleware.ThenFunc(app.aboutPage))
 
 	//For fetching tournament api data
-	mux.Get("/api/tournament/latest", standardMiddleware.ThenFunc(app.getLatestTournaments))
-	mux.Get("/api/tournament/:id", standardMiddleware.ThenFunc(app.getSingleTournament))
+	mux.Get("/api/tournament/latest", standardMiddleware.ThenFunc(app.apiGetLatestTournaments))
+	mux.Get("/api/tournament/:id", standardMiddleware.ThenFunc(app.apiGetSingleTournament))
 
 	// For fetching user api data
 

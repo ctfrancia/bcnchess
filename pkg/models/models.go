@@ -47,3 +47,37 @@ type User struct {
 	Created          time.Time
 	Active           bool
 }
+
+// TournamentResponse defines our JSON response for a tournament
+type TournamentResponse struct {
+	ID                    int       `json:"id"`
+	Title                 string    `json:"title"`
+	Location              string    `json:"location"`
+	TournamentDate        time.Time `json:"tournamentDate"`
+	MatchTimeStart        string    `json:"matchTimeStart"`
+	MatchTimeEnd          string    `json:"matchTimeEnd"`
+	AdditionalInformation string    `json:"additionalInformation"`
+	IsOnline              bool      `json:"isOnline"`
+	TimeControl           string    `json:"timeControl"`
+	TournamentType        string    `json:"tournamentType"`
+	Rated                 bool      `json:"rated"`
+	Poster                string    `json:"poster"`
+	TournamentContact     string    `json:"tournamentContact"`
+	Created               time.Time `json:"created"`
+	Expires               time.Time `json:"expires"`
+}
+
+// UserResponse defines our JSON response for a user
+type UserResponse struct {
+	ID               int       `json:"id"`
+	FirstName        string    `json:"firstName"`
+	LastName         string    `json:"lastName"`
+	Email            string    `json:"email"`
+	Club             string    `json:"club"`
+	EloStandard      string    `json:"eloStandard"`
+	EloRapid         string    `json:"eloRapid"`
+	LichessUsername  string    `json:"lichessUsername"`
+	ChesscomUsername string    `json:"chesscomUsername"`
+	Created          time.Time `json:"created"`
+	Active           bool      `json:"active"`
+}

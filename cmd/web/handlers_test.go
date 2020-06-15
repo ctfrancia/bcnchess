@@ -88,8 +88,8 @@ func TestSignupUser(t *testing.T) {
 		{"Invalid Email(local)", "John", "Doe", "@example.com", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(forms.ErrFieldInvalid)},
 		{"Invalid Email(incomplete address)", "John", "Doe", "joh@nexample.", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(forms.ErrFieldInvalid)},
 		{"Short Password", "John", "Doe", "joh@nexample.com", "no", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(forms.ErrFieldTooShort(6))},
-		// {"Duplicate Email", "John", "Doe", "dupe@example.com", "no", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(models.ErrEmailAlreadyExists)},
-		{"Invalid CSRF Token", "", "", "", "no", "wrongToken", "", "", "", "", "", http.StatusBadRequest, nil},
+		// {"Duplicate Email", "John", "Doe", "dupe@example.com", "validpa$$word", csrfToken, "Congres", "1500", "1300", "exampleLichess", "chesscomExample", http.StatusOK, []byte(models.ErrEmailAlreadyExists)},
+		{"Invalid CSRF Token", "", "", "", "validpa$$word", "wrongToken", "", "", "", "", "", http.StatusBadRequest, nil},
 	}
 	// TODO: Solve failing test that's commented above
 	for _, tt := range tests {

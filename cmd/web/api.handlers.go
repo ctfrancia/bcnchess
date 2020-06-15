@@ -4,42 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 )
 
-type tournamentResponse struct {
-	ID                    int       `json:"id"`
-	Title                 string    `json:"title"`
-	Location              string    `json:"location"`
-	TournamentDate        time.Time `json:"tournamentDate"`
-	MatchTimeStart        string    `json:"matchTimeStart"`
-	MatchTimeEnd          string    `json:"matchTimeEnd"`
-	AdditionalInformation string    `json:"additionalInformation"`
-	IsOnline              bool      `json:"isOnline"`
-	TimeControl           string    `json:"timeControl"`
-	TournamentType        string    `json:"tournamentType"`
-	Rated                 bool      `json:"rated"`
-	Poster                string    `json:"poster"`
-	TournamentContact     string    `json:"tournamentContact"`
-	Created               time.Time `json:"created"`
-	Expires               time.Time `json:"expires"`
-}
-
-type userResponse struct {
-	ID               int       `json:"id"`
-	FirstName        string    `json:"firstName"`
-	LastName         string    `json:"lastName"`
-	Email            string    `json:"email"`
-	Club             string    `json:"club"`
-	EloStandard      string    `json:"eloStandard"`
-	EloRapid         string    `json:"eloRapid"`
-	LichessUsername  string    `json:"lichessUsername"`
-	ChesscomUsername string    `json:"chesscomUsername"`
-	Created          time.Time `json:"created"`
-	Active           bool      `json:"active"`
-}
-
-func (app *application) getLatestTournaments(w http.ResponseWriter, r *http.Request) {
+func (app *application) apiGetLatestTournaments(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	tournaments, err := app.tournaments.Latest()
@@ -55,7 +22,7 @@ func (app *application) getLatestTournaments(w http.ResponseWriter, r *http.Requ
 	w.Write(jsonData)
 }
 
-func (app *application) getSingleTournament(w http.ResponseWriter, r *http.Request) {
+func (app *application) apiGetSingleTournament(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
@@ -76,7 +43,7 @@ func (app *application) getSingleTournament(w http.ResponseWriter, r *http.Reque
 	w.Write(jsonData)
 }
 
-func (app *application) getUserData(w http.ResponseWriter, r *http.Request) {
+func (app *application) apiGetUserData(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	uID := app.session.GetInt(r, "authenticatedUserID")
