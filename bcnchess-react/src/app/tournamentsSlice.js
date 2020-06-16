@@ -1,23 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+
+const tournamentAdapter = createEntityAdapter()
 
 const tournamentsSlice = createSlice({
-  name: 'user',
-  initialState: {},
+  name: 'tournaments',
+  initialState: tournamentAdapter.getInitialState(),
   reducers: {
-    addTournaments: (state, action) => {
-      action.payload.map(tournament => {
-        state[tournament.ID] = tournament
-      })
-    },
-    removeTournament: (state, action) => {
-      delete state[action.payload]
-    },
-    updateTournament: (state, action) => {
-      state[action.payload.ID] = { ...state[action.payload.ID], ...action.payload }
-    }
+    tournamentAdded: tournamentAdapter.addOne,
+    tournamentUpdated: tournamentAdapter.updateOne,
+    tournamentRemoved: tournamentAdapter.removeOne,
+    allTournamentsUpdated: tournamentAdapter.addMany
   }
 });
 
-export const { addTournaments, removeTournament, updateTournament } = tournamentsSlice.actions;
+export const { 
+  tournamentAdded,
+  tournamentUpdated,
+  tournamentRemoved,
+  allTournamentsUpdated
+} = tournamentsSlice.actions;
+
+export const {
+  selectById: selectTournamentById,
+  selectIds: selectTournamentIds,
+  selectAll: selectAllTournaments,
+  selectTotal: selectTotalTournaments
+} = tournamentAdapter.getSelectors(state => state.tournaments)
 
 export default tournamentsSlice.reducer;
