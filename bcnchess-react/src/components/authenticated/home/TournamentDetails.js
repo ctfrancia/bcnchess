@@ -1,38 +1,39 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
+import { selectTournamentById } from '../../../app/tournamentsSlice';
 
 const TournamentDetails = () => {
   const {tournamentId} = useParams()
-  const tournament = useSelector(state => state.tournaments[tournamentId])
+  const tournament = useSelector(state => selectTournamentById(state, tournamentId))
   //TODO: add tournament image
   return (
-    <div class='snippet'>
-      <div class='metadata'>
-          <time><strong>{tournament.Title}</strong></time>
+    <div className='snippet'>
+      <div className='metadata'>
+          <time><strong>{tournament.title}</strong></time>
           <time><strong> Share tournament: https://localhost:4000/tournament/{tournament.ID}</strong></time>
       </div>
-      <div class='metadata'>
-          <strong>Location</strong>: {tournament.Location}<br/>
-          <strong>Host Contact</strong>: {tournament.TournamentContact}
+      <div className='metadata'>
+          <strong>Location</strong>: {tournament.location}<br/>
+          <strong>Host Contact</strong>: {tournament.tournamentContact}
       </div>
-      <pre><code>{tournament.AdditionalInformation}</code></pre>
-      <div class='metadata'>
-          <div class='metadata'>
-              <time>Date: {new Date(tournament.TournamentDate).toString()}</time>
-              <time>Starts: {new Date(tournament.MatchTimeStart).toString()}</time>
+      <pre><code>{tournament.additionalInformation}</code></pre>
+      <div className='metadata'>
+          <div className='metadata'>
+              <time>Date: {new Date(tournament.sDate).toString()}</time>
+              <time>Starts: {new Date(tournament.sTime).toString()}</time>
           </div>
-          <div class='metadata'>
-              <time>Rated: {tournament.Rated}</time>
-              <time>Online: {tournament.IsOnline}</time>
+          <div className='metadata'>
+              <time>Rated: {tournament.isRated}</time>
+              <time>Online: {tournament.isOnline}</time>
           </div>
-          <div class='metadata'>
-              <time>Tournament Type: {tournament.TournamentType}</time>
-              <time>Time Control: {tournament.TimeControl}</time>
+          <div className='metadata'>
+              <time>Tournament Type: {tournament.tournamentType}</time>
+              <time>Time Control: {tournament.timeControl}</time>
           </div>
-          <div class='metadata'>
-              <time>Created: {new Date(tournament.Created).toString()}</time>
-              <time>Expires: {new Date(tournament.Expires).toString()}</time>
+          <div className='metadata'>
+              <time>Created: {new Date(tournament.created).toString()}</time>
+              <time>Expires: {new Date(tournament.expires).toString()}</time>
           </div>
       </div>
     </div>

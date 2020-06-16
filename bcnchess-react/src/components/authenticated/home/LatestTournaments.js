@@ -1,16 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { selectAllTournaments } from '../../../app/tournamentsSlice';
 
 const LatestTournaments = () => {
-  const tournaments = useSelector(state => state.tournaments)
-
-  let tournamentList = []
-  Object.keys(tournaments).map(id => tournamentList.push(tournaments[id]))
+  const tournaments = useSelector(selectAllTournaments)
 
   return (
     <>
-      {tournamentList.length > 0 ? (
+      {tournaments.length > 0 ? (
         <table>
           <thead>
             <tr>
@@ -21,12 +19,12 @@ const LatestTournaments = () => {
             </tr>
           </thead>
           <tbody>
-            {tournamentList.map((tournament, index) => (
+            {tournaments.map((tournament, index) => (
               <tr key={index}>
-                <td><Link to={`/tournament/${tournament.ID}`}>{tournament.Title}</Link></td>
-                <td>{new Date(tournament.TournamentDate).toString()} at {new Date(tournament.MatchTimeStart).toString()}</td>
-                <td>{new Date(tournament.Created).toString()}</td>
-                <td>{tournament.ID}</td>
+                <td><Link to={`/tournament/${tournament.id}`}>{tournament.title}</Link></td>
+                <td>{new Date(tournament.sDate).toString()} at {new Date(tournament.sTime).toString()}</td>
+                <td>{new Date(tournament.created).toString()}</td>
+                <td>{tournament.id}</td>
               </tr>
             ))}
           </tbody>
