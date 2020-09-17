@@ -79,3 +79,23 @@ func (app *application) createTournament(w http.ResponseWriter, r *http.Request)
 	app.session.Put(r, "flash", "Tournament successfully created!")
 	http.Redirect(w, r, fmt.Sprintf("/tournament/%d", id), http.StatusSeeOther)
 }
+
+/*
+func (app *application) apiGetLatestTournaments(w http.ResponseWriter, r *http.Request) {
+  r.Header.Add("Content-Type", "application/json")
+  t, err := app.tournaments.
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+

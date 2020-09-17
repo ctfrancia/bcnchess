@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/ctfrancia/bcnchess/pkg/models"
+ // "github.com/rs/cors"
 
 	"github.com/justinas/nosurf"
 )
@@ -87,3 +88,16 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
+
+/*
+func (app *application) apiConsumption(next http.Handler) http.Handler {
+  return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+    fmt.Println("api consumption", r)
+    c := cors.New(cors.Options{
+      AllowedOrigins: []string{"http://localhost:8080"},
+	  })
+
+    next.ServeHTTP(w, r)
+  })
+}
+*/

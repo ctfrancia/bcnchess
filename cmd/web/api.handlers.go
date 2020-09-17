@@ -41,6 +41,7 @@ type userResponse struct {
 
 func (app *application) getLatestTournaments(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+  w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	tournaments, err := app.tournaments.Latest()
 	if err != nil {
