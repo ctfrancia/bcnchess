@@ -35,6 +35,7 @@ type application struct {
 		Get(int) (*models.Tournament, error)
 		Latest() ([]*models.Tournament, error)
 	}
+
 	templateCache map[string]*template.Template
 	users         interface {
 		Insert(*models.User) error
@@ -90,7 +91,7 @@ func main() {
 
 	infoLog.Printf("starting on server: %s", serverConfig.Addr)
 	// err = srv.ListenAndServeTLS("./tls/cert.pem", "./tls/key.pem")
-  err = srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	errorLog.Fatal(err)
 }
 
