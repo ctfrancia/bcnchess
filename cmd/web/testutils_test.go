@@ -69,8 +69,8 @@ func (ts *testServer) get(t *testing.T, urlPath string) (int, http.Header, []byt
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	defer rs.Body.Close()
+
 	body, err := ioutil.ReadAll(rs.Body)
 	if err != nil {
 		t.Fatal(err)
