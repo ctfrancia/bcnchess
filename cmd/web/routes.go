@@ -5,17 +5,17 @@ import (
 
 	"github.com/bmizerany/pat"
 	"github.com/justinas/alice"
-	"github.com/rs/cors"
+	// "github.com/rs/cors"
 )
 
 func (app *application) routes() http.Handler {
 	standardMiddleware := alice.New(app.recoverPanic, app.logger, secureHeaders)
 	dynamicMiddleware := alice.New(app.session.Enable, noSurf, app.authenticate)
-	c := cors.New(cors.Options{
-		// AllowedOrigins: []string{"http://localhost:8080/"},
-		// AllowedOrigins: []string{},
-	})
-	apiMiddleweare := alice.New(c.Handler)
+	// c := cors.New(cors.Options{
+	// AllowedOrigins: []string{"http://localhost:8080/"},
+	// AllowedOrigins: []string{},
+	// })
+	// apiMiddleweare := alice.New(c.Handler)
 
 	mux := pat.New()
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
@@ -25,9 +25,9 @@ func (app *application) routes() http.Handler {
 	//For fetching tournament api data
 
 	// mux.Get("/api/tournament/latest", standardMiddleware.ThenFunc(app.getLatestTournaments))
-	mux.Get("/api/tournament/latest", standardMiddleware.ThenFunc(app.getLatestTournaments))
+	mux.Get("/api/tournament/latest", standardMiddleware.ThenFunc(app.apiGetLatestTournaments))
 	// mux.Get("/api/tournament/latest", apiMiddleweare.ThenFunc(app.getLatestTournaments))
-	mux.Get("/api/tournament/:id", standardMiddleware.ThenFunc(app.getSingleTournament))
+	mux.Get("/api/tournament/:id", standardMiddleware.ThenFunc(app.apiGetSingleTournament))
 
 	mux.Get("/tournament/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createTournamentForm))
 	mux.Post("/tournament/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createTournament))
