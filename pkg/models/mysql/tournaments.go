@@ -83,8 +83,8 @@ func (m *TournamentModel) Get(id int) (*models.Tournament, error) {
 
 // Latest returns the first n newest tournaments
 func (m *TournamentModel) Latest() ([]*models.Tournament, error) {
-	stmt := `SELECT * FROM tournaments
-	WHERE expires > UTC_TIMESTAMP() ORDER BY created DESC LIMIT 10`
+	stmt := `SELECT * FROM tournaments WHERE expires > UTC_TIMESTAMP() ORDER BY created DESC LIMIT 10`
+
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
 		return nil, err
@@ -116,6 +116,7 @@ func (m *TournamentModel) Latest() ([]*models.Tournament, error) {
 		}
 		tournaments = append(tournaments, t)
 	}
+
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}

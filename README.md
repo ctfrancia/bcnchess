@@ -13,9 +13,10 @@ THIS IS DONE FOR BOTH SETTING UP A LOCAL ENVIRONMENT AND FOR RUNNING INTEGRATION
 - see list of tournaments
 - list a live or online tournament
 - shared tournaments through links
-
+- chat with people through the website
 
 ### Future goals
+*see issues to see what it currently there*
 - registered members can see who will be attending
 - create chess clubs
 - chess club managers can manage their clubs
@@ -39,9 +40,10 @@ THIS IS DONE FOR BOTH SETTING UP A LOCAL ENVIRONMENT AND FOR RUNNING INTEGRATION
 ### Reminder
 all cli commands can be seen by running `$ go run ./cmd/web -help`
 
+*note* as this server is moving to an api many of these won't be needed anyone
 1. `-addr=":<NUMBER>"` - this is used to set the address, default is :4000
 2. `-static-dir="<PATH>"` -relative path to your static files directory default: "./ui/static"
 3. `-dsn="<user>:<password>"` - usern and password of the user who will be writing to the db. default is "chess-web:password"
-4. `-secret="<VALUE>"` - secret key used for the sessions token default: s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge
+4. `-secret="<VALUE>"` - secret key used for the sessions token default: s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge *note* this is for dev, and will not work in the production :P
 5. `-secretLifetime="<NUMBER>"` - secret key's lifetime before the key is invalid, default is: 12 hours.
 6. `-debug=<BOOL>` - debug mode (errors with stack stracing shows up in the browser instead of the terminal)
