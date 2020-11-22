@@ -18,7 +18,7 @@ folder the issue is currently connecting to the mysql database
 run these commands in order from the root of this folder:
 
 - `$ docker network create bcnchess`
-- `$ docker run -d --net bcnchess --name chess-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=abc123 mysql:5.7`
+- `$ docker run -d --net bcnchess --name chess-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=abc123 -e MYSQL_DATABASE=bcnchess mysql:5.7`
 - `$ docker exec -it chess-db bash`
 - *you should be in the docker container* `# mysql -u root -p` then enter the password of `abc123`
 - `mysql> CREATE DATABASE bcnchess;`
