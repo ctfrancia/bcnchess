@@ -24,7 +24,7 @@ run these commands in order from the root of this folder:
 - `mysql> CREATE DATABASE bcnchess;`
 - exit out of mysql instance and container with `mysql>|# exit`
 - `$ docker build -t chess-server .`
-- `$ docker run -d --net chess --name go-server chess-server`
+- `$ docker run -d --net chess --name go-server -p 4000:4000 chess-server`
 - `$ docker container ls` and you should see the two containers running together on the same network
 
 ## Troubleshooting

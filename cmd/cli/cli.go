@@ -40,6 +40,7 @@ func NewServerConfig() *ServerConfig {
 	if err != nil {
 		fmt.Fprint(os.Stdout, "-secretLifetime's value must be of type int")
 	}
+
 	cfg.Session.Lifetime = time.Duration(lt) * time.Hour
 	cfg.Session.Secure = true
 
