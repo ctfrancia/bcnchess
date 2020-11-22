@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"database/sql"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -54,6 +55,7 @@ func main() {
 
 	db, err := openDB(serverConfig.Dsn)
 	if err != nil {
+		fmt.Println(serverConfig.Dsn)
 		errorLog.Fatal(err)
 	}
 	defer db.Close()

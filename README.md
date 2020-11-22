@@ -9,6 +9,28 @@ THIS IS DONE FOR BOTH SETTING UP A LOCAL ENVIRONMENT AND FOR RUNNING INTEGRATION
 - Make sure that when starting the server you are passing the flag for `dsn` as this will connect to your local version of the database. The user will need permission to SELECT, INSERT.
 - For testing make sure that you pass in the flag `test-dsn` to set for a user that has all priveledges, as we will need to CREATE, DROP etc.
 
+- new with [#16](https://github.com/ctfrancia/bcnchess/issues/16) is a WIP. While the server can be built with the docker file by running: `$ docker build -t chess-server .` while in the root
+folder the issue is currently connecting to the mysql database
+
+#### Steps with running locally (Docker)
+*note* need to have docker installed locally sorry for the long steps this will be automated better.
+
+run these commands in order from the root of this folder:
+
+- `$ docker network create bcnchess`
+- `$ docker run -d --net bcnchess --name chess-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=abc123 mysql:5.7`
+- `$ docker exec -it chess-db bash`
+- *you should be in the docker container* `# mysql -u root -p` then enter the password of `abc123`
+- `mysql> CREATE DATABASE bcnchess;`
+- exit out of mysql instance and container with `mysql>|# exit`
+- `$ docker build -t chess-server .`
+- `$ docker run -d --net chess --name go-server chess-server`
+- `$ docker container ls` and you should see the two containers running together on the same network
+
+## Troubleshooting
+- if you don't see the two running then check the logs of the container with `$ docker container logs <CONTAINER_NAME>`
+- adjust the error, if it's something related to the build then please make an issue.
+
 ### Goals of this site:
 - see list of tournaments
 - list a live or online tournament
