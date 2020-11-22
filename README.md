@@ -18,14 +18,10 @@ folder the issue is currently connecting to the mysql database
 run these commands in order from the root of this folder:
 
 - `$ docker network create bcnchess`
-- `$ docker run -d --net bcnchess --name chess-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=abc123 -e MYSQL_DATABASE=bcnchess mysql:5.7`
-- `$ docker exec -it chess-db bash`
-- *you should be in the docker container* `# mysql -u root -p` then enter the password of `abc123`
-- `mysql> CREATE DATABASE bcnchess;`
-- exit out of mysql instance and container with `mysql>|# exit`
+- `$ docker build -t chess-db ./dev/`
+- `$ docker run -d --net bcnchess --name chess-db -p 3306:3306  chess-db`
 - `$ docker build -t chess-server .`
-- `$ docker run -d --net chess --name go-server -p 4000:4000 chess-server`
-- `$ docker container ls` and you should see the two containers running together on the same network
+- `$ docker run -d --net bcnchess --name go-server -p 4000:4000 chess-server`
 
 ## Troubleshooting
 - if you don't see the two running then check the logs of the container with `$ docker container logs <CONTAINER_NAME>`
