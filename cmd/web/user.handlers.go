@@ -13,6 +13,7 @@ func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "signup.page.tmpl", &templateData{Form: forms.New(nil)})
 }
 
+/*
 func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -57,6 +58,7 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 	app.session.Put(r, "flash", "Your signup was successful. Please login")
 	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 }
+*/
 
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "login.page.tmpl", &templateData{Form: forms.New(nil)})

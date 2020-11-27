@@ -2,60 +2,93 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
 	"github.com/ctfrancia/bcnchess/pkg/forms"
-	"github.com/ctfrancia/bcnchess/pkg/models"
 )
 
-func (app *application) apiRegisterNewUSer(w http.ResponseWriter, r *http.Request) {
+type errorResponse struct {
+	Reason string `json:"reason"`
+}
 
-	err := r.ParseForm()
+func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Request) {
+	nu := make(map[string]string)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		app.clientError(w, http.StatusBadRequest)
+		fmt.Println(err)
+	}
+
+	err = json.Unmarshal(body, &nu)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// fmt.Printf("data: %#v", nu)
+	v, err := forms.NewValidator(nu)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 		return
 	}
-
-	form := forms.New(r.PostForm)
-	form.Required("firstName", "email", "password", "lastName", "retypePassword")
-	form.PasswordsMatch(form.Get("password"), form.Get("retypePassword"))
-	form.MaxLength("firstName", 255)
-	form.MaxLength("email", 255)
-	form.MatchesPattern("email", forms.EmailRX)
-	form.MinLength("password", 6)
-	form.MinLength("retypePassword", 6)
-
-	if !form.Valid() {
-		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
-		return
-	}
-
-	u := &models.User{
-		FirstName:        form.Get("firstName"),
-		LastName:         form.Get("lastName"),
-		Email:            form.Get("email"),
-		Password:         []byte(form.Get("password")),
-		Club:             form.Get("club"),
-		EloStandard:      form.Get("eloStandard"),
-		EloRapid:         form.Get("eloRapid"),
-		LichessUsername:  form.Get("lichessUsername"),
-		ChesscomUsername: form.Get("chesscomUsername"),
-	}
-
-	err = app.users.Insert(u)
-	if err != nil {
-		if errors.Is(err, models.ErrDuplicateEmail) {
-			form.Errors.Add("email", models.ErrEmailAlreadyExists)
-			app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
-		} else {
-			app.serverError(w, err)
+	fmt.Printf("%#v: ", v)
+	/*
+		err := r.ParseForm()
+		if err != nil {
+			app.clientError(w, http.StatusBadRequest)
+			return
 		}
-		return
-	}
-	app.session.Put(r, "flash", "Your signup was successful. Please login")
-	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+
+		form := forms.New(r.PostForm)
+		fmt.Println(form)
+		form.Required("firstName", "email", "password", "lastName", "retypePassword")
+		form.PasswordsMatch(form.Get("password"), form.Get("retypePassword"))
+		form.MaxLength("firstName", 255)
+		form.MaxLength("email", 255)
+		form.MatchesPattern("email", forms.EmailRX)
+		form.MinLength("password", 6)
+		form.MinLength("retypePassword", 6)
+
+		if !form.Valid() {
+			app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
+			return
+		}
+
+		u := &models.User{
+			FirstName:        form.Get("firstName"),
+			LastName:         form.Get("lastName"),
+			Email:            form.Get("email"),
+			Password:         []byte(form.Get("password")),
+			Club:             form.Get("club"),
+			EloStandard:      form.Get("eloStandard"),
+			EloRapid:         form.Get("eloRapid"),
+			LichessUsername:  form.Get("lichessUsername"),
+			ChesscomUsername: form.Get("chesscomUsername"),
+		}
+
+		err = app.users.Insert(u)
+		if err != nil {
+			if errors.Is(err, models.ErrDuplicateEmail) {
+				estruct := errorResponse{
+					Reason: "email exists",
+				}
+
+				er, err := json.Marshal(estruct)
+				if err != nil {
+					panic(err)
+				}
+
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write(er)
+			} else {
+				app.serverError(w, err)
+			}
+			return
+		}
+	*/
+	w.WriteHeader(http.StatusOK)
 }
 
 func (app *application) apiGetLatestTournaments(w http.ResponseWriter, r *http.Request) {

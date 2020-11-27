@@ -11,11 +11,12 @@ import (
 func (app *application) routes() http.Handler {
 	standardMiddleware := alice.New(app.recoverPanic, app.logger, secureHeaders)
 	dynamicMiddleware := alice.New(app.session.Enable, noSurf, app.authenticate)
+	apiMiddleware := alice.New(app.logger)
 	// c := cors.New(cors.Options{
 	// AllowedOrigins: []string{"http://localhost:8080/"},
 	// AllowedOrigins: []string{},
 	// })
-	// apiMiddleweare := alice.New(c.Handler)
+	// apiMiddleware := alice.New(c.Handler)
 
 	mux := pat.New()
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
@@ -35,8 +36,10 @@ func (app *application) routes() http.Handler {
 
 	// mux.Get("/tournaments/all", apiMiddleweare.ThenFunc(app.))
 
-	mux.Get("/user/signup", dynamicMiddleware.ThenFunc(app.signupUserForm))
-	mux.Post("/user/signup", dynamicMiddleware.ThenFunc(app.signupUser))
+	// User APIs
+	// mux.Get("/user/signup", dynamicMiddleware.ThenFunc(app.signupUserForm))
+	// mux.Post("/user/signup", dynamicMiddleware.ThenFunc(app.signupUser))
+	mux.Post("/api/user/signup", apiMiddleware.ThenFunc(app.apiRegisterNewUser))
 
 	mux.Get("/user/login", dynamicMiddleware.ThenFunc(app.loginUserForm))
 	mux.Post("/user/login", dynamicMiddleware.ThenFunc(app.loginUser))
@@ -48,7 +51,7 @@ func (app *application) routes() http.Handler {
 	mux.Post("/user/change-password", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.updatePassword))
 	mux.Put("user/add-tournament/:id", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.addUserToTournament))
 
-	mux.Get("/ping", http.HandlerFunc(ping))
+	// mux.Get("/ping", http.HandlerFunc(ping))
 
 	// serving static files
 	fileServer := http.FileServer(http.Dir(app.staticFiles))
