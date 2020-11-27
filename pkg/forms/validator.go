@@ -5,13 +5,6 @@ import (
 	"regexp"
 )
 
-/*
-   "clubCountry": "Spain",
-   "userCountry": "Spain",
-   "club": "club d'Escacs Congrés",
-   "lichessUsername": "chesspanic",
-   "chesscomUsername": "na"
-*/
 var requiredFields = []string{
 	"firstName",
 	"lastName",
@@ -29,20 +22,47 @@ var EmailRX = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9
 
 // Validator defines how validator
 type Validator struct {
-	model map[string]string
+	model  map[string]string
+	errors map[string][]string
+	fields []string
 }
 
 // NewValidator takes the a map of strings to validate. Returns a pointer to a new validator
-func NewValidator(input map[string]string) (*Validator, error) {
-	for field := range input {
+func NewValidator() *Validator {
+	return &Validator{model: map[string]string{}, errors: map[string][]string{}, fields: requiredFields}
+}
+
+// ValidateFields handles the map of the request and checks against the requiredFields
+func (v *Validator) ValidateFields(input map[string]string) {
+	for field, value := range input {
 		_, found := find(requiredFields, field)
-		fmt.Println("found", field, found)
 		if !found {
-			err := fmt.Errorf("an unsupported field was sent: %s, please see docs for valid fields", field)
-			return nil, err
+			v.errors["errors"] = append(v.errors[field], fmt.Sprintf("%+v is not valid, check docs for valid fields", field))
 		}
+		(v.model)[field] = value
 	}
-	return &Validator{model: input}, nil
+}
+
+// MatchesPattern checks against our EmailRx
+func (v *Validator) MatchesPattern(field string, pattern *regexp.Regexp) {
+	_, found := find(v.fields, field)
+	if !found {
+		v.errors["errors"] = append(v.errors["errors"], fmt.Sprintf("field not found: %s", field))
+	}
+
+	if !pattern.MatchString(v.model[field]) {
+		v.errors["errors"] = append(v.errors["errors"], "email is not valid")
+	}
+}
+
+// Valid returns a boolean based on if there are errors within the errors field
+// func (v *Validator) Valid() bool {
+// func (v *Validator) Valid() (bool, map[string][]string) {
+func (v *Validator) Valid() (bool, map[string][]string) {
+	if len(v.errors) == 0 {
+		return true, nil
+	}
+	return false, v.errors
 }
 
 // Find takes a slice and looks for an element in it. If found it will
@@ -55,18 +75,3 @@ func find(slice []string, val string) (int, bool) {
 	}
 	return -1, false
 }
-
-// MatchesPattern checks against our EmailRx
-func (f *Validator) MatchesPattern(field string, pattern *regexp.Regexp) {
-	// value := f.Get(field)
-	/*
-		if value == "" {
-			return
-		}
-		if !pattern.MatchString(value) {
-			f.Errors.Add(field, ErrFieldInvalid)
-		}
-	*/
-}
-
-// func (v *Validator)

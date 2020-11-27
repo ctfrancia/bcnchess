@@ -16,6 +16,7 @@ type errorResponse struct {
 
 func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Request) {
 	nu := make(map[string]string)
+	// nu := models.NewUserJSON{}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Println(err)
@@ -26,13 +27,18 @@ func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Reques
 		fmt.Println(err)
 	}
 
-	// fmt.Printf("data: %#v", nu)
-	v, err := forms.NewValidator(nu)
-	if err != nil {
+	v := forms.NewValidator()
+	v.ValidateFields(nu)
+	v.MatchesPattern("email", forms.EmailRX)
+
+	valid, errs := v.Valid()
+	if !valid {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(err.Error()))
+		b, _ := json.Marshal(errs)
+		_, _ = w.Write(b)
 		return
 	}
+
 	fmt.Printf("%#v: ", v)
 	/*
 		err := r.ParseForm()
