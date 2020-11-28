@@ -7,9 +7,6 @@ import (
 	"unicode/utf8"
 )
 
-// EmailRX defines how we check if the email is correct format
-var EmailRX = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-
 // Form describes our form structure
 type Form struct {
 	url.Values

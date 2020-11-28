@@ -32,6 +32,23 @@ type Tournament struct {
 	Expires               time.Time
 }
 
+// NewUserJSON is the JSON received in the request
+type NewUserJSON struct {
+	FirstName        string `json:"firstName"`
+	LastName         string `json:"lastName"`
+	Email            string `json:"email"`
+	Password         string `json:"password"`
+	Club             string `json:"club"`
+	ClubCountry      string `json:"clubCountry"`
+	UserCountry      string `json:"userCountry"`
+	LichessUsername  string `json:"lichessUsername"`
+	ChesscomUsername string `json:"chesscomUsername"`
+	// eloStandard      string `json:"eloStandard"`
+	// eloRapid         string `json:"eloRapid"`
+	// created          string `json:""`
+	// active           bool   `json:""`
+}
+
 // User defines how our user table is structured
 type User struct {
 	ID               int
@@ -39,7 +56,9 @@ type User struct {
 	LastName         string
 	Email            string
 	Password         []byte
-	Club             string
+	ClubName         string
+	ClubCountry      string
+	UserCountry      string
 	EloStandard      string
 	EloRapid         string
 	LichessUsername  string
