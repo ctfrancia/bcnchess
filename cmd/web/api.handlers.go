@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/ctfrancia/bcnchess/pkg/forms"
+	"github.com/ctfrancia/bcnchess/pkg/models"
 )
 
 type errorResponse struct {
@@ -30,6 +31,11 @@ func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Reques
 	v := forms.NewValidator()
 	v.ValidateFields(nu)
 	v.MatchesPattern("email", forms.EmailRX)
+	v.MaxLength("email", 35)
+	v.MaxLength("firstName", 15)
+	v.MaxLength("lastName", 25)
+	v.MinLength("firsttName", 3)
+	v.MinLength("lastName", 3)
 
 	valid, errs := v.Valid()
 	if !valid {
@@ -39,29 +45,19 @@ func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	u := &models.User{
+		FirstName:        form.Get("firstName"),
+		LastName:         form.Get("lastName"),
+		Email:            form.Get("email"),
+		Password:         []byte(form.Get("password")),
+		Club:             form.Get("club"),
+		EloStandard:      form.Get("eloStandard"),
+		EloRapid:         form.Get("eloRapid"),
+		LichessUsername:  form.Get("lichessUsername"),
+		ChesscomUsername: form.Get("chesscomUsername"),
+	}
 	fmt.Printf("%#v: ", v)
 	/*
-		err := r.ParseForm()
-		if err != nil {
-			app.clientError(w, http.StatusBadRequest)
-			return
-		}
-
-		form := forms.New(r.PostForm)
-		fmt.Println(form)
-		form.Required("firstName", "email", "password", "lastName", "retypePassword")
-		form.PasswordsMatch(form.Get("password"), form.Get("retypePassword"))
-		form.MaxLength("firstName", 255)
-		form.MaxLength("email", 255)
-		form.MatchesPattern("email", forms.EmailRX)
-		form.MinLength("password", 6)
-		form.MinLength("retypePassword", 6)
-
-		if !form.Valid() {
-			app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
-			return
-		}
-
 		u := &models.User{
 			FirstName:        form.Get("firstName"),
 			LastName:         form.Get("lastName"),

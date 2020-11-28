@@ -3,6 +3,7 @@ package forms
 import (
 	"fmt"
 	"regexp"
+	"unicode/utf8"
 )
 
 var requiredFields = []string{
@@ -56,13 +57,36 @@ func (v *Validator) MatchesPattern(field string, pattern *regexp.Regexp) {
 }
 
 // Valid returns a boolean based on if there are errors within the errors field
-// func (v *Validator) Valid() bool {
-// func (v *Validator) Valid() (bool, map[string][]string) {
 func (v *Validator) Valid() (bool, map[string][]string) {
 	if len(v.errors) == 0 {
 		return true, nil
 	}
 	return false, v.errors
+}
+
+// MaxLength deines the maximum length for a given field
+func (v *Validator) MaxLength(field string, d int) {
+	value := v.model[field]
+
+	if value == "" {
+		return
+	}
+
+	if utf8.RuneCountInString(value) > d {
+		v.errors["errors"] = append(v.errors["errors"], ErrFieldTooLong(d))
+	}
+}
+
+// MinLength defines the minimum value alotted to given field
+func (v *Validator) MinLength(field string, d int) {
+	value := v.model[field]
+
+	if value == "" {
+		return
+	}
+	if utf8.RuneCountInString(value) < d {
+		v.errors["errors"] = append(v.errors["errors"], ErrFieldTooShort(d))
+	}
 }
 
 // Find takes a slice and looks for an element in it. If found it will
