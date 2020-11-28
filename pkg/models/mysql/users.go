@@ -26,13 +26,17 @@ func (m *UserModel) Insert(u *models.User) error {
 		lastName,
 		email,
 		password,
-		club,
+		userCountry,
+		clubCountry,
+		clubName,
 		eloStandard,
 		eloRapid,
+		lichessUsername,
+		chesscomUserName,
 		created
-		) VALUES (?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP())`
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP())`
 
-	_, err = m.DB.Exec(stmt, u.FirstName, u.LastName, u.Email, string(hashedPassword), u.Club, u.EloStandard, u.EloRapid)
+	_, err = m.DB.Exec(stmt, u.FirstName, u.LastName, u.Email, string(hashedPassword), u.UserCountry, u.ClubCountry, u.ClubName, u.EloStandard, u.EloRapid, u.LichessUsername, u.ChesscomUsername)
 	if err != nil {
 		var mySQLError *mysql.MySQLError
 		if errors.As(err, &mySQLError) {
@@ -73,13 +77,15 @@ func (m *UserModel) Authenticate(email, password string) (int, error) {
 func (m *UserModel) Get(id int) (*models.User, error) {
 	u := &models.User{}
 
-	stmt := "SELECT id, firstName, lastName, email, club, eloStandard, eloRapid, lichessUsername, chesscomUserName, created, active FROM users WHERE id = ?"
+	stmt := "SELECT id, firstName, lastName, email, userCountry, clubCountry, clubName, eloStandard, eloRapid, lichessUsername, chesscomUserName, created, active FROM users WHERE id = ?"
 	err := m.DB.QueryRow(stmt, id).Scan(
 		&u.ID,
 		&u.FirstName,
 		&u.LastName,
 		&u.Email,
-		&u.Club,
+		&u.UserCountry,
+		&u.ClubCountry,
+		&u.ClubName,
 		&u.EloStandard,
 		&u.EloRapid,
 		&u.LichessUsername,

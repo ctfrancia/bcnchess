@@ -56,7 +56,9 @@ type User struct {
 	LastName         string
 	Email            string
 	Password         []byte
-	Club             string
+	ClubName         string
+	ClubCountry      string
+	UserCountry      string
 	EloStandard      string
 	EloRapid         string
 	LichessUsername  string

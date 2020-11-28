@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -46,50 +47,47 @@ func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Reques
 	}
 
 	u := &models.User{
-		FirstName:        form.Get("firstName"),
-		LastName:         form.Get("lastName"),
-		Email:            form.Get("email"),
-		Password:         []byte(form.Get("password")),
-		Club:             form.Get("club"),
-		EloStandard:      form.Get("eloStandard"),
-		EloRapid:         form.Get("eloRapid"),
-		LichessUsername:  form.Get("lichessUsername"),
-		ChesscomUsername: form.Get("chesscomUsername"),
+		FirstName:        v.Get("firstName"),
+		LastName:         v.Get("lastName"),
+		Email:            v.Get("email"),
+		Password:         []byte(v.Get("password")),
+		ClubName:         v.Get("clubName"),
+		ClubCountry:      v.Get("clubCountry"),
+		UserCountry:      v.Get("userCountry"),
+		EloStandard:      v.Get("eloStandard"),
+		EloRapid:         v.Get("eloRapid"),
+		LichessUsername:  v.Get("lichessUsername"),
+		ChesscomUsername: v.Get("chesscomUsername"),
 	}
-	fmt.Printf("%#v: ", v)
-	/*
-		u := &models.User{
-			FirstName:        form.Get("firstName"),
-			LastName:         form.Get("lastName"),
-			Email:            form.Get("email"),
-			Password:         []byte(form.Get("password")),
-			Club:             form.Get("club"),
-			EloStandard:      form.Get("eloStandard"),
-			EloRapid:         form.Get("eloRapid"),
-			LichessUsername:  form.Get("lichessUsername"),
-			ChesscomUsername: form.Get("chesscomUsername"),
-		}
-
-		err = app.users.Insert(u)
-		if err != nil {
-			if errors.Is(err, models.ErrDuplicateEmail) {
-				estruct := errorResponse{
-					Reason: "email exists",
-				}
-
-				er, err := json.Marshal(estruct)
-				if err != nil {
-					panic(err)
-				}
-
-				w.WriteHeader(http.StatusBadRequest)
-				w.Write(er)
-			} else {
-				app.serverError(w, err)
+	err = app.users.Insert(u)
+	if err != nil {
+		if errors.Is(err, models.ErrDuplicateEmail) {
+			estruct := errorResponse{
+				Reason: "email exists",
 			}
-			return
+
+			er, err := json.Marshal(estruct)
+			if err != nil {
+				panic(err)
+			}
+
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write(er)
+		} else {
+			estruct := errorResponse{
+				Reason: "unknown error",
+			}
+			fmt.Println("unknown error", err)
+
+			er, err := json.Marshal(estruct)
+			if err != nil {
+				panic(err)
+			}
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write(er)
 		}
-	*/
+		return
+	}
 	w.WriteHeader(http.StatusOK)
 }
 
