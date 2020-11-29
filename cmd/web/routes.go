@@ -41,15 +41,17 @@ func (app *application) routes() http.Handler {
 	// mux.Post("/user/signup", dynamicMiddleware.ThenFunc(app.signupUser))
 	mux.Post("/api/user/signup", apiMiddleware.ThenFunc(app.apiRegisterNewUser))
 
-	mux.Get("/user/login", dynamicMiddleware.ThenFunc(app.loginUserForm))
-	mux.Post("/user/login", dynamicMiddleware.ThenFunc(app.loginUser))
+	/*
+		mux.Get("/user/login", dynamicMiddleware.ThenFunc(app.loginUserForm))
+		mux.Post("/user/login", dynamicMiddleware.ThenFunc(app.loginUser))
 
-	mux.Post("/user/logout", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.logoutUser))
-	mux.Get("/user/profile", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.userProfile))
+		mux.Post("/user/logout", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.logoutUser))
+		mux.Get("/user/profile", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.userProfile))
 
-	mux.Get("/user/change-password", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.changePasswordForm))
-	mux.Post("/user/change-password", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.updatePassword))
-	mux.Put("user/add-tournament/:id", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.addUserToTournament))
+		mux.Get("/user/change-password", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.changePasswordForm))
+		mux.Post("/user/change-password", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.updatePassword))
+		mux.Put("user/add-tournament/:id", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.addUserToTournament))
+	*/
 
 	// mux.Get("/ping", http.HandlerFunc(ping))
 

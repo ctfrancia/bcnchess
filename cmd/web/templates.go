@@ -5,15 +5,14 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ctfrancia/bcnchess/pkg/forms"
 	"github.com/ctfrancia/bcnchess/pkg/models"
 )
 
 type templateData struct {
-	CSRFToken       string
-	CurrentYear     int
-	Flash           string
-	Form            *forms.Form
+	CSRFToken   string
+	CurrentYear int
+	Flash       string
+	// Form            *forms.Form
 	IsAuthenticated bool
 	Tournament      *models.Tournament
 	Tournaments     []*models.Tournament
