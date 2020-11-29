@@ -74,9 +74,10 @@ CREATE TABLE users(
   eloRapid VARCHAR(255) NOT NULL DEFAULT "na",
   lichessUsername VARCHAR(255) NOT NULL DEFAULT "na",
   chesscomUsername VARCHAR(255) NOT NULL DEFAULT "na",
+  language VARCHAR(10) NOT NULL DEFAULT "es-ES",
   created DATETIME NOT NULL,
-  active BOOLEAN NOT NULL DEFAULT TRUE,
-  PRIMARY KEY('id')
+  active BOOLEAN NOT NULL DEFAULT TRUE
+  -- PRIMARY KEY('id')
 );
 
 ALTER TABLE users ADD CONSTRAINT users_us_email UNIQUE (email);

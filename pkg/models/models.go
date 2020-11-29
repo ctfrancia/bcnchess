@@ -63,6 +63,7 @@ type User struct {
 	EloRapid         string
 	LichessUsername  string
 	ChesscomUsername string
+	Language         string
 	Created          time.Time
 	Active           bool
 }

@@ -33,10 +33,11 @@ func (m *UserModel) Insert(u *models.User) error {
 		eloRapid,
 		lichessUsername,
 		chesscomUserName,
+		language,
 		created
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP())`
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP())`
 
-	_, err = m.DB.Exec(stmt, u.FirstName, u.LastName, u.Email, string(hashedPassword), u.UserCountry, u.ClubCountry, u.ClubName, u.EloStandard, u.EloRapid, u.LichessUsername, u.ChesscomUsername)
+	_, err = m.DB.Exec(stmt, u.FirstName, u.LastName, u.Email, string(hashedPassword), u.UserCountry, u.ClubCountry, u.ClubName, u.EloStandard, u.EloRapid, u.LichessUsername, u.ChesscomUsername, u.Language)
 	if err != nil {
 		var mySQLError *mysql.MySQLError
 		if errors.As(err, &mySQLError) {

@@ -54,6 +54,7 @@ func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Reques
 		ClubName:         v.Get("clubName"),
 		ClubCountry:      v.Get("clubCountry"),
 		UserCountry:      v.Get("userCountry"),
+		Language:         v.Get("language"),
 		EloStandard:      v.Get("eloStandard"),
 		EloRapid:         v.Get("eloRapid"),
 		LichessUsername:  v.Get("lichessUsername"),
