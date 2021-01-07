@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/ctfrancia/bcnchess/pkg/models"
- // "github.com/rs/cors"
+	// "github.com/rs/cors"
 
 	"github.com/justinas/nosurf"
 )
@@ -74,16 +74,20 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 			return
 		}
 
-		user, err := app.users.Get(app.session.GetInt(r, "authenticatedUserID"))
-		if errors.Is(err, models.ErrNoRecord) || !user.Active {
-			app.session.Remove(r, "authenticatedUserID")
-			next.ServeHTTP(w, r)
-			return
-		} else if err != nil {
-			app.serverError(w, err)
-			return
-		}
-		ctx := context.WithValue(r.Context(), contextKeyIsAuthenticated, true)
+		//TODO: implement the new authentication here.
+
+		/*
+			user, err := app.users.Get(app.session.GetInt(r, "authenticatedUserID"))
+			if errors.Is(err, models.ErrNoRecord) || !user.Active {
+				app.session.Remove(r, "authenticatedUserID")
+				next.ServeHTTP(w, r)
+				return
+			} else if err != nil {
+				app.serverError(w, err)
+				return
+			}
+			ctx := context.WithValue(r.Context(), contextKeyIsAuthenticated, true)
+		*/
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
