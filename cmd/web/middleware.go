@@ -42,6 +42,7 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 	})
 }
 
+/* DEPRICATED
 func noSurf(next http.Handler) http.Handler {
 	csrfHandler := nosurf.New(next)
 	csrfHandler.SetBaseCookie(http.Cookie{
@@ -51,7 +52,9 @@ func noSurf(next http.Handler) http.Handler {
 	})
 	return csrfHandler
 }
+*/
 
+/* DEPRICATED
 func (app *application) requireAuthentication(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !app.isAuthenticated(r) {
@@ -64,17 +67,19 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+*/
 
+//TODO: implement the new authentication here.
 func (app *application) authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		exists := app.session.Exists(r, "authenticatedUserID")
+		/*
+			exists := app.session.Exists(r, "authenticatedUserID")
 
-		if !exists {
-			next.ServeHTTP(w, r)
-			return
-		}
-
-		//TODO: implement the new authentication here.
+			if !exists {
+				next.ServeHTTP(w, r)
+				return
+			}
+		*/
 
 		/*
 			user, err := app.users.Get(app.session.GetInt(r, "authenticatedUserID"))
@@ -92,16 +97,3 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
-
-/*
-func (app *application) apiConsumption(next http.Handler) http.Handler {
-  return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-    fmt.Println("api consumption", r)
-    c := cors.New(cors.Options{
-      AllowedOrigins: []string{"http://localhost:8080"},
-	  })
-
-    next.ServeHTTP(w, r)
-  })
-}
-*/

@@ -19,6 +19,7 @@ type errorResponse struct {
 func (app *application) apiRegisterNewUser(w http.ResponseWriter, r *http.Request) {
 	nu := make(map[string]string)
 	// nu := models.NewUserJSON{}
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Println(err)
